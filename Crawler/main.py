@@ -1,7 +1,7 @@
 import gCrawler
 
-#busca = gCrawler.search_links(input('>> Buscar: '))
-busca = gCrawler.search_links("Programação C")  #Para testes
+busca = gCrawler.search_links(input('>> Buscar: '))
+#busca = gCrawler.search_links("Programação C")  #Para testes
 
 i=0
 
@@ -13,7 +13,7 @@ for result in busca:
     print("Resumo: " + result[2])
     print()
     result_text = gCrawler.get_content(result[1])
-    if type(result_text) is list or str:
+    if type(result_text) in {list, str}:
         print("Conteúdo:")
         print(result_text)
         print()

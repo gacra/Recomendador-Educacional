@@ -14,38 +14,30 @@ Faz buscas no Google
         'q': busca,
     }
 
-    # print("URL da busca: " + (url % busca) + "\n")
-
     soup = crawler.make_soup(url % busca)
     titulo = [title for title in soup.find_all('h3')]
-
-    i = 0
 
     resultado = []
 
     for t in titulo:
-        i += 1
 
-        # print("Resultado " + str(i) + ":")
+        titulo = ""
+        link = ""
+        resumo = ""
 
-        titulo = t.text
+        try:
+            titulo = t.text
 
-        # print("Título:\t" + str(t.text))
+            link = t.find_next('a', href=True)['href']
+            link = str(str(link).replace("/url?q=", "").rsplit("&sa=")[0])
+            if link[0] == '/':
+                link = "http://www.google.com.br" + link
 
-        link = t.find_next('a', href=True)['href']
-        link = str(str(link).replace("/url?q=", "").rsplit("&sa=")[0])
-        if link[0] == '/':
-            link = "http://www.google.com.br" + link
-        # print("Link:\t" + unquote(link, encoding='utf-8', errors='replace'))
+            link = unquote(link, encoding='utf-8', errors='replace')
 
-        link = unquote(link, encoding='utf-8', errors='replace')
-
-        # print("Resumo:\t" + str(t.find_next('span', class_='st').text))
-
-        resumo = str(t.find_next('span', class_='st').text)
-        # print()
-
-        resultado.append((titulo, link, resumo))
+            resumo = str(t.find_next('span', class_='st').text)
+        finally:
+            resultado.append((titulo, link, resumo))
 
     return resultado
 
@@ -66,7 +58,6 @@ Obtem uma lista de termos da página
     for script in soup.find_all(['script', 'style']):
         script.extract()
 
-    retorno = soup.get_text().replace("\n", "\t").replace("\t", " ").replace(u"\xa0", u" ")
-    retorno = re.sub(" +", " ", retorno).strip()
+    retorno = re.findall('[\w-]+', soup.getText())
 
-    return retorno.split(" ")
+    return retorno
