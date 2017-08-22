@@ -1,19 +1,35 @@
-import gCrawler
+'''
+Módulo principal
+'''
 
-busca = gCrawler.search_links(input('>> Buscar: '))
-#busca = gCrawler.search_links("Programação C")  #Para testes
+import sys
+import preRecomendador
 
-i=0
+def main():
 
-for result in busca:
-    i += 1
-    print("Resultado " + str(i) + " :")
-    print("Título: " + result[0])
-    print("Link: " + result[1])
-    print("Resumo: " + result[2])
+    termoBusca = input("Termo de busca: ")
+    #termoBusca = "Programação em C"
+
+    if len(sys.argv) != 3:
+        return
+
+    chaveAPI = sys.argv[1]
+    pesquisaID = sys.argv[2]
+
+    itens = preRecomendador.get_itens(termoBusca, chaveAPI, pesquisaID)
+
+    i = 0
     print()
-    result_text = gCrawler.get_content(result[1])
-    if type(result_text) in {list, str}:
-        print("Conteúdo:")
-        print(result_text)
+
+    for item in itens:
+        i += 1
+        print(i)
+        print("Titulo: " + item.get('titulo'))
+        print("Link: " + item.get('link'))
+        print("Resumo: " + item.get('resumo'))
+        print("Tipo: " + item.get('tipo'))
+        print("Vetor de termos:\n" + str(item.get('termos')))
         print()
+
+if __name__ == "__main__":
+    main()

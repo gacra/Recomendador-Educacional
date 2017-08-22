@@ -1,0 +1,7 @@
+-----------
+Google API
+-----------
+
+pip install --upgrade google-api-python-client
+Cria chave: https://console.developers.google.com
+Cria busca: https://cse.google.com/cse/all
