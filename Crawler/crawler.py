@@ -26,7 +26,7 @@ Retorna uma lista de termos de uma página HTML
     for script in soup.find_all(['script', 'style']):
         script.extract()
 
-    retorno = re.findall('[\w-]+', soup.getText(separator=u" "))
+    retorno = re.findall('[\w-]+', soup.getText(separator=u" ").lower())
 
     return retorno
 
@@ -51,7 +51,7 @@ Obtem uma lista de termos de um documento pdf
 
     texto = pdf2txt('./PDFs/' + nome)
 
-    retorno = re.findall('[\w-]+', texto)
+    retorno = re.findall('[\w-]+', texto.lower())
 
     return retorno
 
