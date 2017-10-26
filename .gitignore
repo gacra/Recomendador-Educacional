@@ -1,4 +1,7 @@
+#Custom
 PDFs/
+workspace.xml
+*.re
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -139,4 +142,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-Crawler/.idea/workspace.xml
