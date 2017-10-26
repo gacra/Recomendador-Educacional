@@ -4,11 +4,12 @@ Módulo principal
 
 import sys
 import preRecomendador
+import json
 
 def main():
 
-    termoBusca = input("Termo de busca: ")
-    #termoBusca = "Programação em C"
+    #termoBusca = input("Termo de busca: ")
+    termosBusca = ["Ponteiros em C", "Funções em C"]
 
     if len(sys.argv) != 3:
         return
@@ -16,7 +17,7 @@ def main():
     chaveAPI = sys.argv[1]
     pesquisaID = sys.argv[2]
 
-    itens = preRecomendador.get_itens(termoBusca, chaveAPI, pesquisaID)
+    itens = preRecomendador.get_itens(termosBusca, chaveAPI, pesquisaID)
 
     i = 0
     print()
@@ -28,8 +29,12 @@ def main():
         print("Link: " + item.get('link'))
         print("Resumo: " + item.get('resumo'))
         print("Tipo: " + item.get('tipo'))
-        print("Vetor de termos:\n" + str(item.get('termos')))
+        print("TF-IDF:\n" + str(item.get('tf_idf')))
         print()
+
+
+    with open('../data.re', 'w') as arquivo:
+        json.dump(itens, arquivo)
 
 if __name__ == "__main__":
     main()

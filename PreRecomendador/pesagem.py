@@ -9,7 +9,6 @@ Calcula o tf_idf de um conjunto de itens
     termos_cont = {}
 
     for item in conj_itens:
-        print("Item: " + item['titulo'])
         vet_termos = item['termos']
         tf_vet = {}
         for termo in vet_termos:
@@ -20,13 +19,13 @@ Calcula o tf_idf de um conjunto de itens
                 else:
                     termos_cont[termo] = termos_cont[termo] + 1
         item['tf_idf'] = tf_vet
-        #print(item)
 
     for item in conj_itens:
         vet_termos_tf = item['tf_idf']
         for termo in vet_termos_tf.keys():
             idf_v = idf(termos_cont, termo, conj_itens_tam)
             vet_termos_tf[termo] *= idf_v
+        del item["termos"]
 
 def tf(vet_termos: list, termo: str) -> float:
     """

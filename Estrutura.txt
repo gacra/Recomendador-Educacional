@@ -1,0 +1,19 @@
+----------------
+ ORGANIZAÇÃO IC
+----------------
+
+preRecomendador.get_itens(termoBusca, chaveAPI, pesquisaID)
+	--> [{'titulo':'...', 'link':'...', 'resumo':'...', 'tipo':'html|pdf|outro', 'termos':['termo1', 'termo2', ...]}, ...]
+
+	* googleAPI.googleSearch(termoBusca, chaveAPI, pesquisaID)
+		--> [{'titulo':'...', 'link':'...', 'resumo':'...', 'tipo':'html|pdf|outro'}, ...]
+
+	* P/ cada item:
+	  crawler.get_content(item.get('link'), item.get('tipo'))
+	  --> ['termo1', 'termo2', 'termo3', ...]
+
+	* Une tudo:
+		--> [{'titulo':'...', 'link':'...', 'resumo':'...', 'tipo':'html|pdf|outro', 'termos':['termo1', 'termo2', ...]}, ...]
+		
+	* tf_idf._tf_idf([{'titulo':'...', 'link':'...', 'resumo':'...', 'tipo':'html|pdf|outro', 'termos':['termo1', 'termo2', ...]}, ...])
+		--> [{'titulo':'...', 'link':'...', 'resumo':'...', 'tipo':'html|pdf|outro', 'tf_idf':{'termo1':tf_idf1, 'termo2':tf_idf2, ...}}, ...]
