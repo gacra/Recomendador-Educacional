@@ -2,21 +2,27 @@
 Módulo da API do Google para busca customizada
 '''
 
-import pprint
+#Classe
+import sys
+sys.path.append('../Utils')
+from item import Item
+#Módulos externos
 from googleapiclient.discovery import build
+#Documentação
+from typing import List
 
 '''
 Para instalar a API do Google:
 pip install --upgrade google-api-python-client
 '''
 
-def googleSearch(busca: str, chaveAPI: str, pesquisaID: str):
+def googleSearch(busca: str, chaveAPI: str, pesquisaID: str) -> List[Item]:
     """
 Faz uma busca no Google
     :param busca: Termo da busca
     :param chaveAPI: Chave da API (https://console.developers.google.com)
     :param pesquisaID: Identificador da busca (https://cse.google.com/cse/all)
-    :return: Lista de resultados. Cada resultado é um dicionário contendo: Título, Link, Resumo e Tipo (html, pdf, outro)
+    :return: Lista de resultados (objetos Item).
     """
     service = build("customsearch", "v1", developerKey=chaveAPI)
 
@@ -47,9 +53,8 @@ Faz uma busca no Google
             else:
                 tipoTitem = 'outro'
 
-            resultado.append({'titulo':item.get('title'),
-                          'link':item.get('link'),
-                          'resumo':item.get('snippet').replace(u"\n", "").replace(u"\xa0", ""),
-                              'tipo': tipoItem})
+            resultado.append(Item(titulo=item.get('title'), link=item.get('link'),
+                                  resumo=item.get('snippet').replace(u"\n", "").replace(u"\xa0", ""),
+                                  tipo= tipoItem))
 
     return resultado

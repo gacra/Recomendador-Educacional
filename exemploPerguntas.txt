@@ -1,0 +1,4 @@
+Programe um aplicativo em C que acha todos os números primos até 1000. Número primo é aquele que é divisível somente por 1 e por ele mesmo.
+O exercício 4 mostra um exemplo de função que retorna um ponteiro. A função achaSobrenomeretorna o ponteiropnome. O que você acha que o programa imprime?
+Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2] ? 
+Crie uma função que receba três valores, 'a', 'b' e 'c', que são os coeficientes de uma equação do segundo grau e retorne o valor do delta, que é dado por 'b² - 4ac'

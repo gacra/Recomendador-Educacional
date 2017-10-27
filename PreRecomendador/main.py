@@ -2,9 +2,11 @@
 Módulo principal
 '''
 
-import sys
+#Módulos internos
 import preRecomendador
-import json
+#Módulos externos
+import  pickle
+import sys
 
 def main():
 
@@ -17,7 +19,7 @@ def main():
     chaveAPI = sys.argv[1]
     pesquisaID = sys.argv[2]
 
-    itens = preRecomendador.get_itens(termosBusca, chaveAPI, pesquisaID)
+    itens, perguntas = preRecomendador.get_itens(termosBusca, chaveAPI, pesquisaID, '../exemploPerguntas.txt')
 
     i = 0
     print()
@@ -25,16 +27,22 @@ def main():
     for item in itens:
         i += 1
         print(i)
-        print("Titulo: " + item.get('titulo'))
-        print("Link: " + item.get('link'))
-        print("Resumo: " + item.get('resumo'))
-        print("Tipo: " + item.get('tipo'))
-        print("TF-IDF:\n" + str(item.get('tf_idf')))
+        print("Titulo: " + item.titulo)
+        print("Link: " + item.link)
+        print("Resumo: " + item.resumo)
+        print("Tipo: " + item.tipo)
+        print("TF-IDF:\n" + str(item.termos))
         print()
 
+    for pergunta in perguntas:
+        print("ID: " + str(pergunta.id))
+        print("Pseudo TF-IDF: " + str(pergunta.termosPerg))
 
-    with open('../data.re', 'w') as arquivo:
-        json.dump(itens, arquivo)
+    with open('../itens.re', 'wb') as arquivo:
+        pickle.dump(itens, arquivo, pickle.HIGHEST_PROTOCOL)
+
+    with open('../perguntas.re', 'wb') as arquivo:
+        pickle.dump(perguntas, arquivo, pickle.HIGHEST_PROTOCOL)
 
 if __name__ == "__main__":
     main()
