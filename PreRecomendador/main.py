@@ -11,7 +11,10 @@ import sys
 def main():
 
     #termoBusca = input("Termo de busca: ")
-    termosBusca = ["Ponteiros em C", "Funções em C"]
+    termosBusca = ["Tipos de dados em C",
+                   "Comandos de repetição em C",
+                   "Ponteiros em C",
+                   "Funções em C"]
 
     if len(sys.argv) != 3:
         return

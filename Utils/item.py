@@ -15,7 +15,15 @@ Classe representativa de um item (página web).
         self.termos = termos
 
     def __str__(self):
-        return '{' + "'titulo': {}, 'link': {}, 'tipo': {}, 'termos': {}".format(self.titulo, self.link, self.tipo, self.termos) + '}'
+        return '{' + "'titulo': {}, 'link': {}, 'resumo': {}, 'tipo': {}, 'termos': {}".format(self.titulo, self.link,
+                                                                                               self.resumo, self.tipo,
+                                                                                               self.termos) + '}'
 
     def __repr__(self):
-        return '{' + "'titulo': {}, 'link': {}, 'tipo': {}, 'termos': {}".format(self.titulo, self.link, self.tipo, self.termos) + '}'
+        return '{' + "'titulo': {}, 'link': {}, 'resumo': {}, 'tipo': {}, 'termos': {}".format(self.titulo, self.link,
+                                                                                               self.resumo, self.tipo,
+                                                                                               self.termos) + '}'
+
+    def paraDict(self):
+        return '{' + "'titulo': {}, 'link': {}, 'resumo': {}, 'tipo': {}".format(self.titulo, self.link,
+                                                                                               self.resumo, self.tipo)+ '}'
