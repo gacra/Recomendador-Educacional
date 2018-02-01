@@ -7,6 +7,13 @@ Cria chave: https://console.developers.google.com
 Cria busca: https://cse.google.com/cse/all
 
 --------------
+Scrapy Fedora
+--------------
+
+sudo dnf install python3-devel
+pip install scrapy
+
+--------------
 Tópicos ICC 1
 --------------
 

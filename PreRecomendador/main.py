@@ -7,6 +7,7 @@ import preRecomendador
 #Módulos externos
 import  pickle
 import sys
+import os
 
 def main():
 
@@ -17,6 +18,8 @@ def main():
                    "Funções em C"]
 
     if len(sys.argv) != 3:
+        print(os.environ['CHAVE_API'])
+        print(os.environ['PESQUISA_ID'])
         return
 
     chaveAPI = sys.argv[1]
