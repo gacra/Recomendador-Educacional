@@ -1,7 +1,5 @@
 #Classes
-import sys
-sys.path.append('../Utils')
-from pergunta import Pergunta
+from rec_edu_utils.pergunta import Pergunta
 #Módulos externos
 import math
 #Documentação

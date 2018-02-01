@@ -1,7 +1,5 @@
 #Classe usada
-import sys
-sys.path.append('../Utils')
-from pergunta import Pergunta
+from rec_edu_utils.pergunta import Pergunta
 #Módulos usados
 import io
 import re

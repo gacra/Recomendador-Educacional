@@ -15,15 +15,11 @@ def main():
     termosBusca = ["Tipos de dados em C",
                    "Comandos de repetição em C",
                    "Ponteiros em C",
-                   "Funções em C"]
+                   "Funções em C",
+                   "Recursão em C"]
 
-    if len(sys.argv) != 3:
-        print(os.environ['CHAVE_API'])
-        print(os.environ['PESQUISA_ID'])
-        return
-
-    chaveAPI = sys.argv[1]
-    pesquisaID = sys.argv[2]
+    chaveAPI = os.environ['CHAVE_API']
+    pesquisaID = os.environ['PESQUISA_ID']
 
     itens, perguntas = preRecomendador.get_itens(termosBusca, chaveAPI, pesquisaID, '../exemploPerguntas.txt')
 

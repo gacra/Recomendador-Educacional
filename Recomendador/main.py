@@ -1,8 +1,6 @@
 #Classes
-import sys
-sys.path.append('../Utils')
-from item import Item
-from pergunta import Pergunta
+from rec_edu_utils.item import Item
+from rec_edu_utils.pergunta import Pergunta
 #Módulos internos
 import perfil
 import recomendador
@@ -49,7 +47,7 @@ if __name__ == "__main__":
 
     recomendacoes = recomendador.recomendacao(perfilVet, itens)
 
-    for recomendacao in recomendacoes:
+    for recomendacao in reversed(recomendacoes):
         print("Similaridade: " + str(recomendacao[0]))
         print(recomendacao[1])
         print()

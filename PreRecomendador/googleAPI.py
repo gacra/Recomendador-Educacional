@@ -3,9 +3,7 @@ Módulo da API do Google para busca customizada
 '''
 
 #Classe
-import sys
-sys.path.append('../Utils')
-from item import Item
+from rec_edu_utils.item import Item
 #Módulos externos
 from googleapiclient.discovery import build
 #Documentação

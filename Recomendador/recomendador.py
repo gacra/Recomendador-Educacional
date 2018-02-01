@@ -1,7 +1,5 @@
 #Classes
-import sys
-sys.path.append('../Utils')
-from item import Item
+from rec_edu_utils.item import Item
 from similaridade import Similaridade
 #Documentação
 from typing import List, Tuple

@@ -6,6 +6,7 @@ Módulo responsável pela pré-recomendação (aquisição e preparação dos da
 import crawler
 import perguntas as _perguntas
 import pesagem
+from tqdm import tqdm
 
 #Módulos externos usados
 import googleAPI
@@ -24,8 +25,7 @@ A partir de um termo de busca retorna os resultados.
     for termoBusca in termosBusca:
         itens += googleAPI.googleSearch(termoBusca, chaveAPI, pesquisaID)
 
-    for item in itens[:]:
-        print(".", end="", flush=True)
+    for item in tqdm(itens[:]):
         result_text = crawler.get_content(item.link, item.tipo)
         if type(result_text) in {list} and len(result_text)!=0:
             item.termos = result_text
