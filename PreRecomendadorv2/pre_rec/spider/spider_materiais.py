@@ -9,6 +9,12 @@ from pre_rec.spider import lista_termos_busca
 class SpiderMateriais(scrapy.Spider):
     name = 'ext_mat_edu'
 
+    custom_settings = {
+        "ITEM_PIPELINES": {
+            'pre_rec.pipelines.json_export.JsonExport': 101
+        }
+    }
+
     p_bar = None
 
     def start_requests(self):
@@ -24,5 +30,6 @@ class SpiderMateriais(scrapy.Spider):
             yield scrapy.Request(material['link'], meta={'Material': material})
 
     def parse(self, response):
-        self.p_bar.update()
-        self.logger.info(response.meta['Material']['titulo'])
+        status = ParserMaterial.get_conteudo(self, response)
+        if status:
+            yield response.meta['Material']

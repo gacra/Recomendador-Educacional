@@ -8,3 +8,5 @@ NEWSPIDER_MODULE = 'pre_rec.spiders'
 
 AUTOTHROTTLE_ENABLED = True
 EXPORTER_PATH = 'output_data/'
+
+LOG_LEVEL = 'INFO'
