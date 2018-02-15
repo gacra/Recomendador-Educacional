@@ -37,7 +37,7 @@ class ParserMaterial(object):
         for script in soup.find_all(['script', 'style']):
             script.extract()
 
-        conteudo = re.findall('[\w-]+', soup.getText(separator=u" ").lower())
+        conteudo = re.findall('[\d\-_]*[^\W\d_][\w-]*', soup.getText(separator=u" ").lower())
 
         material.termos = conteudo
         return True

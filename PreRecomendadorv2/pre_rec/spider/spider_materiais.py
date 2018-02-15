@@ -11,7 +11,9 @@ class SpiderMateriais(scrapy.Spider):
 
     custom_settings = {
         "ITEM_PIPELINES": {
-            'pre_rec.pipelines.json_export.JsonExport': 101
+            'pre_rec.pipelines.pdf_parser.PdfParser': 101,
+            'pre_rec.pipelines.tf_calc.TfCalc': 201,
+            'pre_rec.pipelines.json_export.JsonExport': 301
         }
     }
 
@@ -27,9 +29,15 @@ class SpiderMateriais(scrapy.Spider):
 
         for resultado in lista_resultados:
             material = ParserMaterial.get_metadados(resultado)
-            yield scrapy.Request(material['link'], meta={'Material': material})
+            yield scrapy.Request(material['link'],
+                                 meta={'Material': material},
+                                 callback=self.parse,
+                                 errback=self.errback)
 
     def parse(self, response):
         status = ParserMaterial.get_conteudo(self, response)
         if status:
             yield response.meta['Material']
+
+    def errback(self, failure):
+        self.logger.warning(failure.type)

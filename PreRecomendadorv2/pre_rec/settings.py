@@ -10,3 +10,5 @@ AUTOTHROTTLE_ENABLED = True
 EXPORTER_PATH = 'output_data/'
 
 LOG_LEVEL = 'INFO'
+
+FILES_STORE = './pdfs'
