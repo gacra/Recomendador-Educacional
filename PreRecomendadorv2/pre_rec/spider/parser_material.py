@@ -1,7 +1,9 @@
 import re
 from bs4 import BeautifulSoup
+from uuid import uuid5, NAMESPACE_X500
 
 from rec_edu_utils.material import Material
+from pre_rec import RE_TERMOS
 
 
 class ParserMaterial(object):
@@ -11,6 +13,7 @@ class ParserMaterial(object):
         link = resultado.get('link')
         resumo = resultado.get('snippet')
         resumo = resumo.replace(u"\n", "").replace(u"\xa0", "")
+        _id = uuid5(NAMESPACE_X500, link).hex
 
         tipo_item = resultado.get('fileFormat')
         if tipo_item is None:
@@ -20,7 +23,11 @@ class ParserMaterial(object):
         else:
             tipo_item = 'outro'
 
-        return Material(titulo=titulo, link=link, resumo=resumo, tipo=tipo_item)
+        return Material(_id=_id,
+                        titulo=titulo,
+                        link=link,
+                        resumo=resumo,
+                        tipo=tipo_item)
 
     @staticmethod
     def get_conteudo(spider, response):
@@ -37,7 +44,7 @@ class ParserMaterial(object):
         for script in soup.find_all(['script', 'style']):
             script.extract()
 
-        conteudo = re.findall('[\d\-_]*[^\W\d_][\w-]*', soup.getText(separator=u" ").lower())
+        conteudo = re.findall(RE_TERMOS, soup.getText(separator=u" ").lower())
 
         material.termos = conteudo
         return True

@@ -1,14 +1,17 @@
+import logging
+
+import re
 import scrapy
 from scrapy.pipelines.files import FilesPipeline
-import logging
-import re
+
+from pre_rec import RE_TERMOS
 
 from pre_rec.pdf_to_text import pdf2txt
 
 logger = logging.getLogger(__name__)
 
-class PdfParser(FilesPipeline):
 
+class PdfParser(FilesPipeline):
     def open_spider(self, spider):
         self.arq_path = spider.settings.get('FILES_STORE') + '/'
         return super(PdfParser, self).open_spider(spider)
@@ -22,5 +25,5 @@ class PdfParser(FilesPipeline):
             sucesso, info_arq = results[0]
             if sucesso:
                 texto = pdf2txt(self.arq_path + info_arq['path'])
-                item.termos = re.findall('[\d\-_]*[^\W\d_][\w-]*', texto.lower())
+                item.termos = re.findall(RE_TERMOS, texto.lower())
         return item
