@@ -13,7 +13,7 @@ class ParserMaterial(object):
         link = resultado.get('link')
         resumo = resultado.get('snippet')
         resumo = resumo.replace(u"\n", "").replace(u"\xa0", "")
-        _id = uuid5(NAMESPACE_X500, link).hex
+        _id = 're_material.' + uuid5(NAMESPACE_X500, link).hex
 
         tipo_item = resultado.get('fileFormat')
         if tipo_item is None:

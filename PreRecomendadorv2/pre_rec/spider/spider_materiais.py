@@ -1,10 +1,11 @@
 import scrapy
 from tqdm import tqdm
 
-from pre_rec.spider.parser_material import ParserMaterial
+from rec_edu_utils.temas import Temas
 
+from pre_rec.spider.parser_material import ParserMaterial
 from pre_rec.google_api.busca import googleSearch
-from pre_rec.spider import lista_termos_busca
+
 
 class SpiderMateriais(scrapy.Spider):
     name = 'ext_mat_edu'
@@ -22,8 +23,8 @@ class SpiderMateriais(scrapy.Spider):
     def start_requests(self):
         lista_resultados = []
 
-        for termo_busca in tqdm(lista_termos_busca, desc='GoogleSearch'):
-            lista_resultados += googleSearch(termo_busca)
+        for termo_busca in tqdm(Temas, desc='GoogleSearch'):
+            lista_resultados += googleSearch(termo_busca.value)
 
         self.p_bar = tqdm(desc='Materiais', total=len(lista_resultados))
 
@@ -40,4 +41,5 @@ class SpiderMateriais(scrapy.Spider):
             yield response.meta['Material']
 
     def errback(self, failure):
-        self.logger.warning(failure.type)
+        self.logger.warning('{} | {}'.format(failure.type, failure.value))
+        self.p_bar.total -= 1

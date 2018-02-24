@@ -12,3 +12,5 @@ EXPORTER_PATH = 'output_data/'
 LOG_LEVEL = 'INFO'
 
 FILES_STORE = './pdfs'
+
+MEDIA_ALLOW_REDIRECTS = True

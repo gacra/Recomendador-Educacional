@@ -1,5 +1,6 @@
 from rec_edu_utils import Item, Field
 
+
 class Material(Item):
 
     _id = Field()
@@ -7,4 +8,5 @@ class Material(Item):
     link = Field()
     resumo = Field()
     tipo = Field()
+    tema = Field()
     termos = Field()

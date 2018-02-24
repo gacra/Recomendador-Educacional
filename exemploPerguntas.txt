@@ -1,7 +1,7 @@
-Programe um aplicativo em C que acha todos os números primos até 1000. Número primo é aquele que é divisível somente por 1 e por ele mesmo.
-O exercício 4 mostra um exemplo de função que retorna um ponteiro. A função achaSobrenomeretorna o ponteiropnome. O que você acha que o programa imprime?
-Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2] ? 
-Crie uma função que receba três valores, 'a', 'b' e 'c', que são os coeficientes de uma equação do segundo grau e retorne o valor do delta, que é dado por 'b² - 4ac'
-Faça um programa em C que recebe um inteiro do usuário e calcula seu fatorial. O fatorial de 'n' é dado por: n*(n-1)*(n-2)...*3*2*1 e é representado por n!
-Crie um aplicativo em C que peça um número inteiro ao usuário - 'n' - e exiba o n-ésimo termo da série de Fibonacci, sabendo que o primeiro termo é 0, o segundo é 1 e o próximo número é sempre a soma dos dois anteriores.
-Indique os nomes de váriaveis que são válidos. Justifique os nomes inválidos.
+{"enunciado": "Programe um aplicativo em C que acha todos os números primos até 1000. Número primo é aquele que é divisível somente por 1 e por ele mesmo.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["TIPOS_DADOS"]}
+{"enunciado": "O exercício 4 mostra um exemplo de função que retorna um ponteiro. A função achaSobrenomeretorna o ponteiropnome. O que você acha que o programa imprime?", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["PONTEIROS", "FUNCOES"]}
+{"enunciado": "Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2] ?", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["PONTEIROS"]}
+{"enunciado": "Crie uma função que receba três valores, 'a', 'b' e 'c', que são os coeficientes de uma equação do segundo grau e retorne o valor do delta, que é dado por 'b² - 4ac'", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["FUNCOES"]}
+{"enunciado": "Faça um programa em C que recebe um inteiro do usuário e calcula seu fatorial. O fatorial de 'n' é dado por: n*(n-1)*(n-2)...*3*2*1 e é representado por n!", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["FUNCOES"]}
+{"enunciado": "Crie um aplicativo em C que peça um número inteiro ao usuário - 'n' - e exiba o n-ésimo termo da série de Fibonacci, sabendo que o primeiro termo é 0, o segundo é 1 e o próximo número é sempre a soma dos dois anteriores.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["RECURSAO"]}
+{"enunciado": "Indique os nomes de váriaveis que são válidos. Justifique os nomes inválidos.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": ["TIPOS_DADOS"]}
