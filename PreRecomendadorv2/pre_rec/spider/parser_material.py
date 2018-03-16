@@ -13,6 +13,7 @@ class ParserMaterial(object):
         link = resultado.get('link')
         resumo = resultado.get('snippet')
         resumo = resumo.replace(u"\n", "").replace(u"\xa0", "")
+        tema = resultado.get('termo_busca')
         _id = 're_material.' + uuid5(NAMESPACE_X500, link).hex
 
         tipo_item = resultado.get('fileFormat')
@@ -27,7 +28,8 @@ class ParserMaterial(object):
                         titulo=titulo,
                         link=link,
                         resumo=resumo,
-                        tipo=tipo_item)
+                        tipo=tipo_item,
+                        tema=tema)
 
     @staticmethod
     def get_conteudo(spider, response):

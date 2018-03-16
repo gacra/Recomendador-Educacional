@@ -18,6 +18,10 @@ Transforma um arquivo pdf em uma string
     logger.propagate = False
     logger.setLevel(logging.ERROR)
 
+    logger = logging.getLogger('pdfminer.converter')
+    logger.propagate = False
+    logger.setLevel(logging.ERROR)
+
     fp = open(path, 'rb')
     parser = PDFParser(fp)
     doc = PDFDocument()

@@ -24,7 +24,7 @@ class SpiderMateriais(scrapy.Spider):
         lista_resultados = []
 
         for termo_busca in tqdm(Temas, desc='GoogleSearch'):
-            lista_resultados += googleSearch(termo_busca.value)
+            lista_resultados += googleSearch(termo_busca)
 
         self.p_bar = tqdm(desc='Materiais', total=len(lista_resultados))
 
@@ -43,3 +43,4 @@ class SpiderMateriais(scrapy.Spider):
     def errback(self, failure):
         self.logger.warning('{} | {}'.format(failure.type, failure.value))
         self.p_bar.total -= 1
+        self.p_bar.refresh()

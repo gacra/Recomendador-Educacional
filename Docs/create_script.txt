@@ -78,8 +78,48 @@ CREATE (mat)-[:Possui {quantidade: 1}]->(termo6)
 MERGE (termo7:Termo {termo: "for"})
 CREATE (mat)-[:Possui {quantidade: 4}]->(termo7)
 
+** Setar o número de ocorrências de um termo, no próprio termo **
 
-match (mat:Material {id: "re_material.004"})-[r:Possui]->(termo:Termo)<-[r2:Possui]-(mat2:Material)
-with termo, count(mat2)+1 as idf
-match (mat:Material {id: "re_material.004"})-[r:Possui]->(termo)<-[r2:Possui]-(mat2:Material)
-return mat, mat2, sum((r.quantidade*r2.quantidade)/idf)
+match (termo:Termo)<-[:Possui]-(mat:Material)
+with termo, count(mat) as ocorr
+set termo.ocorrencias = ocorr
+
+** Similaridade **
+
+match (mat:Material)
+with count(mat) as N
+
+match (mat1:Material {id: "re_material.002"})-[r1:Possui]->(termo:Termo)<-[r2:Possui]-(mat2:Material)
+with N, mat1, mat2, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
+with N, mat1, mat2, sum(tf1*tf2*idf*idf) as num
+
+match (mat1)-[r1:Possui]->(termo:Termo)
+with N, mat1, mat2, num, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
+with N, mat1, mat2, num, sum(tf1*idf1) as soma_tf_idf1
+
+match (mat2)-[r2:Possui]->(termo:Termo)
+with mat1, mat2, num, soma_tf_idf1, termo, ((log10(r2.quantidade)/log10(2))+1.0) as tf2, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf2
+with mat1, mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
+
+return mat1, mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
+order by similaridade desc
+
+** Similaridade - Mais otimizado **
+
+match (mat:Material)
+with count(mat) as N
+
+match (mat1:Material {id: "re_material.002"})-[r1:Possui]->(termo:Termo)
+with N, mat1, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
+with N, mat1, sum(tf1*idf1) as soma_tf_idf1
+
+match (mat1)-[r1:Possui]->(termo:Termo)<-[r2:Possui]-(mat2:Material)
+with N, mat1, mat2, soma_tf_idf1, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
+with N, mat1, mat2, sum(tf1*tf2*idf*idf) as num, soma_tf_idf1
+
+match (mat2)-[r2:Possui]->(termo:Termo)
+with mat1, mat2, num, soma_tf_idf1, termo, ((log10(r2.quantidade)/log10(2))+1.0) as tf2, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf2
+with mat1, mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
+
+return mat1, mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
+order by similaridade desc
