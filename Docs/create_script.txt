@@ -1,82 +1,16 @@
-CREATE (mat:Material {titulo: "Tipos de dados", link: "http://tiposdedados.com.br", tipo: "html", id: "re_material.000", resumo: "Resumo tipos de dados"})
+** Criação dos materiais **
 
-MERGE (termo1:Termo {termo: "tipo"})
-CREATE (mat)-[:Possui {quantidade: 5}]->(termo1)
-MERGE (termo2:Termo {termo: "dado"})
-CREATE (mat)-[:Possui {quantidade: 5}]->(termo2)
-MERGE (termo3:Termo {termo: "variável"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo3)
-MERGE (termo4:Termo {termo: "int"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo4)
-MERGE (termo5:Termo {termo: "float"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo5)
-MERGE (termo6:Termo {termo: "char"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo6)
+with {endereço:3, vetor:5, ponteiro:7, variável:1, retorno:2} as map
+MERGE (mat:Material {id: "re_material.002"})
+SET mat += {titulo: "Ponteiro", link: "http://ponteiro.com.br", tipo: "html", resumo: "Resumo ponteiro"}
+FOREACH(termo in keys(map) | merge(ter:Termo {termo:termo}) create (ter)<-[:POSSUI {quantidade: map[termo]}]-(mat))
 
+** Criação Perguntas **
 
-CREATE (mat:Material {titulo: "Comandos de Repetição", link: "http://comandosderepeticao.com.br", tipo: "html", id: "re_material.001", resumo: "Resumo comandos repeticao"})
-
-MERGE (termo1:Termo {termo: "repetição"})
-CREATE (mat)-[:Possui {quantidade: 4}]->(termo1)
-MERGE (termo2:Termo {termo: "comando"})
-CREATE (mat)-[:Possui {quantidade: 3}]->(termo2)
-MERGE (termo3:Termo {termo: "for"})
-CREATE (mat)-[:Possui {quantidade: 5}]->(termo3)
-MERGE (termo4:Termo {termo: "variável"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo4)
-MERGE (termo5:Termo {termo: "recursão"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo5)
-MERGE (termo6:Termo {termo: "compilador"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo6)
-
-CREATE (mat:Material {titulo: "Ponteiros", link: "http://ponteiros.com.br", tipo: "pdf", id: "re_material.002", resumo: "Resumo ponteiros"})
-
-MERGE (termo1:Termo {termo: "ponteiro"})
-CREATE (mat)-[:Possui {quantidade: 6}]->(termo1)
-MERGE (termo2:Termo {termo: "vetor"})
-CREATE (mat)-[:Possui {quantidade: 5}]->(termo2)
-MERGE (termo3:Termo {termo: "compilador"})
-CREATE (mat)-[:Possui {quantidade: 4}]->(termo3)
-MERGE (termo4:Termo {termo: "variável"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo4)
-MERGE (termo5:Termo {termo: "endereço"})
-CREATE (mat)-[:Possui {quantidade: 4}]->(termo5)
-MERGE (termo6:Termo {termo: "programação"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo6)
-
-CREATE (mat:Material {titulo: "Funções", link: "http://funcao.com.br", tipo: "html", id: "re_material.003", resumo: "Resumo funcoes"})
-
-MERGE (termo1:Termo {termo: "função"})
-CREATE (mat)-[:Possui {quantidade: 7}]->(termo1)
-MERGE (termo2:Termo {termo: "referência"})
-CREATE (mat)-[:Possui {quantidade: 3}]->(termo2)
-MERGE (termo3:Termo {termo: "parâmetro"})
-CREATE (mat)-[:Possui {quantidade: 4}]->(termo3)
-MERGE (termo4:Termo {termo: "variável"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo4)
-MERGE (termo5:Termo {termo: "retorno"})
-CREATE (mat)-[:Possui {quantidade: 4}]->(termo5)
-MERGE (termo6:Termo {termo: "programação"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo6)
-MERGE (termo7:Termo {termo: "for"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo7)
-
-CREATE (mat:Material {titulo: "Recursão", link: "http://recursao.com.br", tipo: "html", id: "re_material.004", resumo: "Resumo recursão"})
-
-MERGE (termo1:Termo {termo: "função"})
-CREATE (mat)-[:Possui {quantidade: 3}]->(termo1)
-MERGE (termo2:Termo {termo: "recursão"})
-CREATE (mat)-[:Possui {quantidade: 7}]->(termo2)
-MERGE (termo3:Termo {termo: "parâmetro"})
-CREATE (mat)-[:Possui {quantidade: 3}]->(termo3)
-MERGE (termo4:Termo {termo: "repetição"})
-CREATE (mat)-[:Possui {quantidade: 3}]->(termo4)
-MERGE (termo5:Termo {termo: "retorno"})
-CREATE (mat)-[:Possui {quantidade: 2}]->(termo5)
-MERGE (termo6:Termo {termo: "compilador"})
-CREATE (mat)-[:Possui {quantidade: 1}]->(termo6)
-MERGE (termo7:Termo {termo: "for"})
-CREATE (mat)-[:Possui {quantidade: 4}]->(termo7)
+with {repetição:3, int:4, comando:5} as map
+merge (pergunta:Pergunta {id:"re_pergunta.000"})
+set pergunta += {enunciado:"Enunciado 000?", alternativas:["alt a", "alt b"]}
+FOREACH(termo in keys(map) | merge(ter:Termo {termo:termo}) create (ter)<-[:POSSUI {quantidade: map[termo]}]-(pergunta))
 
 ** Setar o número de ocorrências de um termo, no próprio termo **
 
@@ -96,26 +30,6 @@ set termo.ocorrencias = ocorr
 match (mat:Material)
 with count(mat) as N
 
-match (mat1:Material {id: "re_material.002"})-[r1:Possui]->(termo:Termo)<-[r2:Possui]-(mat2:Material)
-with N, mat1, mat2, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
-with N, mat1, mat2, sum(tf1*tf2*idf*idf) as num
-
-match (mat1)-[r1:Possui]->(termo:Termo)
-with N, mat1, mat2, num, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
-with N, mat1, mat2, num, sum(tf1*idf1) as soma_tf_idf1
-
-match (mat2)-[r2:Possui]->(termo:Termo)
-with mat1, mat2, num, soma_tf_idf1, termo, ((log10(r2.quantidade)/log10(2))+1.0) as tf2, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf2
-with mat1, mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
-
-return mat1, mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
-order by similaridade desc
-
-** Similaridade - Mais otimizado **
-
-match (mat:Material)
-with count(mat) as N
-
 match (mat1:Material {id: "re_material.002"})-[r1:Possui]->(termo:Termo)
 with N, mat1, termo, ((log10(r1.quantidade)/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
 with N, mat1, sum(tf1*idf1) as soma_tf_idf1
@@ -130,14 +44,6 @@ with mat1, mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
 
 return mat1, mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
 order by similaridade desc
-
-** Criação Perguntas **
-
-create (pergunta:Pergunta {id:"re_pergunta.000", enunciado:"Enunciado 000?", alternativas:["alt a", "alt b"]})
-merge (termo1:Termo {termo:"repetição"})
-create (pergunta)-[:Possui {quantidade: 3}]->(termo1)
-merge (termo2:Termo {termo:"comando"})
-create (pergunta)-[:Possui {quantidade: 5}]->(termo2)
 
 ** Similaridade com pergunta **
 
@@ -160,7 +66,37 @@ with mat1, mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
 return mat1, mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
 order by similaridade desc
 
-** Similaridade com múltiplas perguntas - Em desenvolvimento **
+** Similaridade com múltiplas perguntas **
+
+//Similaridade com multiplas perguntas
+match (conteudo)
+where conteudo:Material or conteudo:Pergunta
+with count(conteudo) as N
+
+with N, ["re_pergunta.000", "re_pergunta.001"] as pergs_ids
+match (perg:Pergunta)
+where perg.id in pergs_ids
+with  N, collect(perg) as pergs
+
+UNWIND pergs as mat1
+match (mat1)-[r1:POSSUI]->(termo:Termo)
+with N, pergs, termo, ((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
+with N, pergs, sum(tf1*idf1) as soma_tf_idf1
+
+UNWIND pergs as mat1
+match (mat1)-[r1:POSSUI]->(termo:Termo)<-[r2:POSSUI]-(mat2:Material)
+with N, mat2, soma_tf_idf1, termo, ((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
+with N, mat2, sum(tf1*tf2*idf*idf) as num, soma_tf_idf1
+
+match (mat2)-[r2:POSSUI]->(termo:Termo)
+with mat2, num, soma_tf_idf1, termo, ((log10(r2.quantidade)/log10(2))+1.0) as tf2, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf2
+with mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
+
+return mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
+order by similaridade desc
+
+
+** Similaridade com múltiplas perguntas 2 **
 
 match (conteudo)
 where conteudo:Material or conteudo:Pergunta
@@ -168,20 +104,54 @@ with count(conteudo) as N
 
 with N, ["re_pergunta.000", "re_pergunta.001"] as pergs_ids
 match (perg:Pergunta)
-where perg.id in ["re_pergunta.000", "re_pergunta.001"]
+where perg.id in pergs_ids
 with  N, collect(perg) as pergs
 
-match (mat1)-[r1:Possui]->(termo:Termo) where mat1 in pergs
+UNWIND pergs as mat1
+match (mat1)-[r1:POSSUI]->(termo:Termo)
 with N, pergs, termo, ((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
 with N, pergs, sum(tf1*idf1) as soma_tf_idf1
 
-match (mat1)-[r1:Possui]->(termo:Termo)<-[r2:Possui]-(mat2:Material) where mat1 in pergs
-with N, mat2, soma_tf_idf1, termo, ((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
-with N, mat2, sum(tf1*tf2*idf*idf) as num, soma_tf_idf1
+match (mat2:Material)-[r2:POSSUI]->(termo:Termo)
+UNWIND pergs as mat1
+optional match (termo)<-[r1:POSSUI]-(mat1)
+with N, mat2, soma_tf_idf1, termo, case when r1 is not null then r1.quantidade else 0 end as r1_quantidade, r2
+with N, mat2, soma_tf_idf1, termo, sum(r1_quantidade) as sum_r1_quantidade, r2
+with mat2, soma_tf_idf1, termo, case when sum_r1_quantidade<>0 then ((log10(sum(sum_r1_quantidade))/log10(2))+1.0) else 0 end  as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
+with mat2, sum(tf1*tf2*idf*idf) as num, soma_tf_idf1, sum(tf2*idf) as soma_tf_idf2
 
-match (mat2)-[r2:Possui]->(termo:Termo)
-with mat2, num, soma_tf_idf1, termo, ((log10(r2.quantidade)/log10(2))+1.0) as tf2, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf2
-with mat2, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2
+with mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade
+where similaridade > 0
+return mat2, similaridade
+order by similaridade desc
 
-return mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade 
+** Similaridade com múltiplas perguntas 3 **
+
+match (conteudo)
+where conteudo:Material or conteudo:Pergunta
+with count(conteudo) as N
+
+with N, ["re_pergunta.000", "re_pergunta.001"] as pergs_ids
+match (perg:Pergunta)
+where perg.id in pergs_ids
+with  N, collect(perg) as pergs
+
+UNWIND pergs as mat1
+match (mat1)-[r1:POSSUI]->(termo:Termo)
+with N, pergs, termo, ((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
+with N, pergs, sum(tf1*idf1) as soma_tf_idf1
+
+UNWIND pergs as mat1
+match (mat2:Material) where exists((mat1)-[:POSSUI]->(:Termo)<-[:POSSUI]-(mat2))
+with distinct N, mat1, mat2, soma_tf_idf1
+match (mat2)-[r2:POSSUI]->(termo:Termo)
+optional match (termo)<-[r1:POSSUI]-(mat1)
+with N, mat2, soma_tf_idf1, termo, case when r1 is not null then r1.quantidade else 0 end as r1_quantidade, r2
+with N, mat2, soma_tf_idf1, termo, sum(r1_quantidade) as sum_r1_quantidade, r2
+with mat2, soma_tf_idf1, termo, case when sum_r1_quantidade<>0 then ((log10(sum(sum_r1_quantidade))/log10(2))+1.0) else 0 end  as tf1, ((log10(r2.quantidade)/log10(2))+1.0) as tf2,  log10(N/(termo.ocorrencias*1.0))/log10(2) as idf
+with mat2, sum(tf1*tf2*idf*idf) as num, soma_tf_idf1, sum(tf2*idf) as soma_tf_idf2
+
+with mat2, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade
+where similaridade > 0
+return mat2, similaridade
 order by similaridade desc
