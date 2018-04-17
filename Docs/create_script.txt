@@ -1,16 +1,22 @@
+** Schema **
+
+CREATE CONSTRAINT ON (perg:Pergunta) ASSERT perg.id IS UNIQUE
+CREATE CONSTRAINT ON (mat:Material) ASSERT mat.id IS UNIQUE
+(Para o termo tb??!!)
+
 ** Criação dos materiais **
 
 with {endereço:3, vetor:5, ponteiro:7, variável:1, retorno:2} as map
 MERGE (mat:Material {id: "re_material.002"})
 SET mat += {titulo: "Ponteiro", link: "http://ponteiro.com.br", tipo: "html", resumo: "Resumo ponteiro"}
-FOREACH(termo in keys(map) | merge(ter:Termo {termo:termo}) create (ter)<-[:POSSUI {quantidade: map[termo]}]-(mat))
+FOREACH(termo in keys(map) | merge(ter:Termo {termo:toLower(termo)}) merge (ter)<-[r:POSSUI]-(mat) set r.quantidade=map[termo])
 
 ** Criação Perguntas **
 
 with {repetição:3, int:4, comando:5} as map
 merge (pergunta:Pergunta {id:"re_pergunta.000"})
 set pergunta += {enunciado:"Enunciado 000?", alternativas:["alt a", "alt b"]}
-FOREACH(termo in keys(map) | merge(ter:Termo {termo:termo}) create (ter)<-[:POSSUI {quantidade: map[termo]}]-(pergunta))
+FOREACH(termo in keys(map) | merge(ter:Termo {termo:toLower(termo)}) merge (ter)<-[r:POSSUI]-(pergunta) set r.quantidade=map[termo])
 
 ** Setar o número de ocorrências de um termo, no próprio termo **
 
@@ -141,10 +147,10 @@ match (mat1)-[r1:POSSUI]->(termo:Termo)
 with N, pergs, termo, ((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1
 with N, pergs, sum(tf1*idf1) as soma_tf_idf1
 
-UNWIND pergs as mat1
-match (mat2:Material) where exists((mat1)-[:POSSUI]->(:Termo)<-[:POSSUI]-(mat2))
-with distinct N, mat1, mat2, soma_tf_idf1
+match (mat2:Material) where any(mat1 in pergs where (mat1)-[:POSSUI]->(:Termo)<-[:POSSUI]-(mat2))
+with N, mat2, pergs, soma_tf_idf1
 match (mat2)-[r2:POSSUI]->(termo:Termo)
+UNWIND pergs as mat1
 optional match (termo)<-[r1:POSSUI]-(mat1)
 with N, mat2, soma_tf_idf1, termo, case when r1 is not null then r1.quantidade else 0 end as r1_quantidade, r2
 with N, mat2, soma_tf_idf1, termo, sum(r1_quantidade) as sum_r1_quantidade, r2

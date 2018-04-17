@@ -9,5 +9,6 @@ setup(
     author='Guilherme',
     description='Possui as classes Item e Perguntas usadas na Pre-Recomendacao e na Recomendacao',
     packages=['rec_edu_utils'],
+    install_requires=['neo4j-driver'],
     zip_safe=False
 )

@@ -1,4 +1,4 @@
-from rec_edu_utils import Item, Field
+from rec_edu_utils.models import Item, Field
 
 
 class Pergunta(Item):
