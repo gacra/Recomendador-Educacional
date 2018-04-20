@@ -2,7 +2,7 @@ import re
 from bs4 import BeautifulSoup
 from uuid import uuid5, NAMESPACE_X500
 
-from rec_edu_utils.material import Material
+from rec_edu_utils.models.material import Material
 from pre_rec import RE_TERMOS
 
 

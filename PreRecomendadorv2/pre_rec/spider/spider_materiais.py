@@ -1,7 +1,7 @@
 import scrapy
 from tqdm import tqdm
 
-from rec_edu_utils.temas import Temas
+from rec_edu_utils.models.temas import Temas
 
 from pre_rec.spider.parser_material import ParserMaterial
 from pre_rec.google_api.busca import googleSearch
@@ -13,7 +13,7 @@ class SpiderMateriais(scrapy.Spider):
     custom_settings = {
         "ITEM_PIPELINES": {
             'pre_rec.pipelines.pdf_parser.PdfParser': 101,
-            'pre_rec.pipelines.tf_calc.TfCalc': 201,
+            'pre_rec.pipelines.freq_calc.FreqCalc': 201,
             'pre_rec.pipelines.json_export.JsonExport': 301
         }
     }
