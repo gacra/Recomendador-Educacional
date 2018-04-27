@@ -5,6 +5,12 @@ from pdfminer.layout import LAParams, LTTextBox, LTTextLine
 
 import logging
 
+logging.propagate = False
+logging.getLogger().setLevel(logging.ERROR)
+
+logger = logging.getLogger('ext_mat_edu')
+logger.setLevel(logging.INFO)
+
 #Usando pdfminer
 #Alternativa: pypdf2
 def pdf2txt(path: str) -> str:
@@ -13,20 +19,6 @@ Transforma um arquivo pdf em uma string
     :param path: Caminho para o arquivo pdf
     :return: String com o texto do pdf
     """
-
-    logger = logging.getLogger('pdfminer.psparser')
-    logger.propagate = False
-    logger.setLevel(logging.ERROR)
-
-    logger = logging.getLogger('pdfminer.converter')
-    logger.propagate = False
-    logger.setLevel(logging.ERROR)
-
-    logging.propagate = False
-    logging.getLogger().setLevel(logging.ERROR)
-
-    logger = logging.getLogger('ext_mat_edu')
-    logger.setLevel(logging.INFO)
 
     fp = open(path, 'rb')
     parser = PDFParser(fp)
