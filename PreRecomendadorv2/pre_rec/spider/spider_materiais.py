@@ -1,11 +1,13 @@
 import scrapy
 from tqdm import tqdm
+import logging
 
 from rec_edu_utils.models.temas import Temas
 
 from pre_rec.spider.parser_material import ParserMaterial
 from pre_rec.google_api.busca import googleSearch
 
+logging.getLogger().setLevel(logging.ERROR)
 
 class SpiderMateriais(scrapy.Spider):
     name = 'ext_mat_edu'

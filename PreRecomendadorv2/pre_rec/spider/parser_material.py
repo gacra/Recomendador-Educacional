@@ -39,6 +39,9 @@ class ParserMaterial(object):
         if material.tipo == 'pdf':
             return True
         if material.tipo == 'outro':
+            spider.logger.info('[Item descartado] Tipo nao suportado')
+            spider.p_bar.total -= 1
+            spider.p_bar.refresh()
             return False
 
         soup = BeautifulSoup(response.body, "html.parser")

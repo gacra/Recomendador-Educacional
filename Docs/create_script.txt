@@ -9,7 +9,17 @@ CREATE CONSTRAINT ON (mat:Material) ASSERT mat.id IS UNIQUE
 with {endereço:3, vetor:5, ponteiro:7, variável:1, retorno:2} as map
 MERGE (mat:Material {id: "re_material.002"})
 SET mat += {titulo: "Ponteiro", link: "http://ponteiro.com.br", tipo: "html", resumo: "Resumo ponteiro"}
-FOREACH(termo in keys(map) | merge(ter:Termo {termo:toLower(termo)}) merge (ter)<-[r:POSSUI]-(mat) set r.quantidade=map[termo])
+SET mat.atualizacao = timestamp()
+FOREACH(termo in keys(map) | merge(ter:Termo {termo:toLower(termo)}) merge (ter)<-[r:POSSUI]-(mat) set r.quantidade=map[termo] set r.atualizacao = timestamp())
+
+MATCH (mat:Material {id: 're_material.002'})-[r:POSSUI]->(:Termo)
+WHERE r.atualizacao <> mat.atualizacao
+DELETE r
+
+MATCH (mat:Material {id: 're_material.002'})-[:POSSUI]->(termo:Termo)
+MATCH (termo)<-[:POSSUI]-(item) where item:Material or item:Pergunta
+WITH  termo, count(item) as ocorr
+SET termo.ocorrencias = ocorr
 
 ** Criação Perguntas **
 
@@ -79,9 +89,9 @@ match (conteudo)
 where conteudo:Material or conteudo:Pergunta
 with count(conteudo) as N
 
-with N, ["re_pergunta.000", "re_pergunta.001"] as pergs_ids
+with N, ["re_pergunta.01", "re_pergunta.02"] as pergs_ids
 match (perg:Pergunta)
-where perg.id in pergs_ids
+where perg._id in pergs_ids
 with  N, collect(perg) as pergs
 
 UNWIND pergs as mat1
@@ -108,9 +118,9 @@ match (conteudo)
 where conteudo:Material or conteudo:Pergunta
 with count(conteudo) as N
 
-with N, ["re_pergunta.000", "re_pergunta.001"] as pergs_ids
+with N, ["re_pergunta.01", "re_pergunta.02"] as pergs_ids
 match (perg:Pergunta)
-where perg.id in pergs_ids
+where perg._id in pergs_ids
 with  N, collect(perg) as pergs
 
 UNWIND pergs as mat1
@@ -137,9 +147,9 @@ match (conteudo)
 where conteudo:Material or conteudo:Pergunta
 with count(conteudo) as N
 
-with N, ["re_pergunta.000", "re_pergunta.001"] as pergs_ids
+with N, ["re_pergunta.01", "re_pergunta.02"] as pergs_ids
 match (perg:Pergunta)
-where perg.id in pergs_ids
+where perg._id in pergs_ids
 with  N, collect(perg) as pergs
 
 UNWIND pergs as mat1

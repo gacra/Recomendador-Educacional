@@ -22,6 +22,12 @@ Transforma um arquivo pdf em uma string
     logger.propagate = False
     logger.setLevel(logging.ERROR)
 
+    logging.propagate = False
+    logging.getLogger().setLevel(logging.ERROR)
+
+    logger = logging.getLogger('ext_mat_edu')
+    logger.setLevel(logging.INFO)
+
     fp = open(path, 'rb')
     parser = PDFParser(fp)
     doc = PDFDocument()
