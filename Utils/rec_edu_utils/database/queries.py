@@ -1,103 +1,103 @@
 upsert_material = (
-    'WITH $termos as map_termos '
+    'WITH $terms as terms_map '
     'MERGE (item:%s {_id: $id}) '
     'SET item += $props '
-    'SET item.atualizacao = timestamp()'
-    'FOREACH(termo in keys(map_termos) | '
-        'MERGE(ter:Termo {termo:toLower(termo)}) '
-        'MERGE (ter)<-[r:POSSUI]-(item) '
-        'SET r.quantidade = map_termos[termo]'
-        'SET r.atualizacao = timestamp())')
+    'SET item.update = timestamp()'
+    'FOREACH(term in keys(terms_map) | '
+        'MERGE(ter:Term {term:toLower(term)}) '
+        'MERGE (ter)<-[r:HAS]-(item) '
+        'SET r.quantity = terms_map[term]'
+        'SET r.update = timestamp())')
 
-remover_termos = (
-    'MATCH (item:%s {_id: $id})-[r:POSSUI]->(termo:Termo) '
-    'WHERE r.atualizacao < item.atualizacao '
-    'SET termo.ocorrencias = termo.ocorrencias - 1 '
+remove_terms = (
+    'MATCH (item:%s {_id: $id})-[r:HAS]->(term:Term) '
+    'WHERE r.update < item.update '
+    'SET term.occurrences = term.occurrences - 1 '
     'DELETE r '
-    'WITH termo WHERE termo.ocorrencias = 0 '
-    'DELETE termo'
+    'WITH term WHERE term.occurrences = 0 '
+    'DELETE term'
 )
 
-inserir_contagem = (
-    'MATCH (:%s {_id: $id})-[:POSSUI]->(termo:Termo) '
-    'MATCH (termo)<-[:POSSUI]-(item) where item:Material or item:Pergunta '
-    'WITH  termo, count(item) as ocorr '
-    'SET termo.ocorrencias = ocorr'
+insert_count = (
+    'MATCH (:%s {_id: $id})-[:HAS]->(term:Term) '
+    'MATCH (term)<-[:HAS]-(item) where item:Material or item:Question '
+    'WITH  term, count(item) as ocorr '
+    'SET term.occurrences = ocorr'
 )
 
-inserir_pergunta = (
-    'CREATE (perg:Pergunta $props) '
-    'SET perg._id = "re_pergunta." + toString(id(perg))'
+insert_question = (
+    'CREATE (question:Question $props) '
+    'SET question._id = "re_question." + toString(id(question))'
 )
 
-obter_perguntas_cruas = (
-    'MATCH (perg:Pergunta) '
-    'WHERE NOT exists((perg)-[:POSSUI]->(:Termo)) '
-    'RETURN perg '
+get_raw_questions = (
+    'MATCH (question:Question) '
+    'WHERE NOT exists((question)-[:HAS]->(:Term)) '
+    'RETURN question '
 )
 
-obter_perguntas = (
-    'MATCH (perg :Pergunta) '
-    'where exists((perg)-[:POSSUI]->(:Termo)) '
-    'RETURN perg {.tema, ._id, .alternativas, .enunciado}'
+get_questions = (
+    'MATCH (question :Question) '
+    'WHERE exists((question)-[:HAS]->(:Term)) '
+    'RETURN question {.topic, ._id, .alternatives, .stem}'
 )
 
-obter_perguntas_por_ids = (
-    'MATCH (perg :Pergunta) '
-    'WHERE perg._id in $lista_ids AND exists((perg)-[:POSSUI]->(:Termo)) '
-    'RETURN perg {.tema, ._id, .alternativas, .enunciado}'
+get_questions_by_id = (
+    'MATCH (question :Question) '
+    'WHERE question._id in $id_list AND exists((question)-[:HAS]->(:Term)) '
+    'RETURN question {.topic, ._id, .alternatives, .stem}'
 )
 
-obter_perguntas_todos_temas = (
-    'MATCH (perg:Pergunta) '
-    'WHERE exists((perg)-[:POSSUI]->(:Termo)) '
-    'RETURN perg.tema as tema, collect(perg._id) as lista_ids'
+get_questions_all_topics = (
+    'MATCH (question:Question) '
+    'WHERE exists((question)-[:HAS]->(:Term)) '
+    'RETURN question.topic as topic, collect(question._id) as id_list'
 )
 
-obter_perguntas_temas = (
-    'MATCH (perg:Pergunta) '
-    'WHERE exists((perg)-[:POSSUI]->(:Termo)) and perg.tema in $lista_temas '
-    'RETURN perg.tema as tema, collect(perg._id) as lista_ids'
+get_questions_topics = (
+    'MATCH (question:Question) '
+    'WHERE exists((question)-[:HAS]->(:Term)) and question.topic in $topic_list '
+    'RETURN question.topic as topic, collect(question._id) as id_list'
 )
 
-obter_respostas = (
-    'MATCH(perg :Pergunta) '
-    'WHERE perg._id in $lista_ids '
-    'RETURN perg._id as id, perg.alt_correta as alt_correta'
+get_answers = (
+    'MATCH(question :Question) '
+    'WHERE question._id in $id_list '
+    'RETURN question._id as id, question.correct_alt as correct_alt'
 )
 
-obter_materiais_similares = (
+get_similar_materials = (
     'MATCH (item) '
-    'WHERE item:Material or item:Pergunta '
+    'WHERE item:Material or item:Question '
     'WITH count(item) as N '
     
-    'WITH N, $lista_ids_pergs as pergs_ids '
-    'MATCH (perg:Pergunta) '
-    'WHERE perg._id in pergs_ids '
-    'WITH  N, collect(perg) as lista_pergs '
+    'WITH N, $question_id_list as questions_ids '
+    'MATCH (question:Question) '
+    'WHERE question._id in questions_ids '
+    'WITH  N, collect(question) as question_list '
     
-    'UNWIND lista_pergs as perg '
-    'MATCH (perg)-[r1:POSSUI]->(termo:Termo) '
-    'WITH N, lista_pergs, termo, '
-    '((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, '
-    'log10(N/(termo.ocorrencias*1.0))/log10(2) as idf1 '
-    'WITH N, lista_pergs, sum(tf1*idf1) as soma_tf_idf1 '
+    'UNWIND question_list as question '
+    'MATCH (question)-[r1:HAS]->(term:Term) '
+    'WITH N, question_list, term, '
+    '((log10(sum(r1.quantity))/log10(2))+1.0) as tf1, '
+    'log10(N/(term.occurrences*1.0))/log10(2) as idf1 '
+    'WITH N, question_list, sum(tf1*idf1) as sum_tf_idf1 '
     
-    'UNWIND lista_pergs as perg '
-    'MATCH (perg)-[r1:POSSUI]->(termo:Termo)<-[r2:POSSUI]-(mat:Material) '
-    'WITH N, mat, soma_tf_idf1, termo, '
-    '((log10(sum(r1.quantidade))/log10(2))+1.0) as tf1, '
-    '((log10(r2.quantidade)/log10(2))+1.0) as tf2,  '
-    'log10(N/(termo.ocorrencias*1.0))/log10(2) as idf '
-    'WITH N, mat, sum(tf1*tf2*idf*idf) as num, soma_tf_idf1 '
+    'UNWIND question_list as question '
+    'MATCH (question)-[r1:HAS]->(term:Term)<-[r2:HAS]-(mat:Material) '
+    'WITH N, mat, sum_tf_idf1, term, '
+    '((log10(sum(r1.quantity))/log10(2))+1.0) as tf1, '
+    '((log10(r2.quantity)/log10(2))+1.0) as tf2,  '
+    'log10(N/(term.occurrences*1.0))/log10(2) as idf '
+    'WITH N, mat, sum(tf1*tf2*idf*idf) as num, sum_tf_idf1 '
     
-    'MATCH (mat)-[r2:POSSUI]->(termo:Termo) '
-    'WITH mat, num, soma_tf_idf1, termo, '
-    '((log10(r2.quantidade)/log10(2))+1.0) as tf2, '
-    'log10(N/(termo.ocorrencias*1.0))/log10(2) as idf2 '
-    'WITH mat, num, soma_tf_idf1, sum(tf2*idf2) as soma_tf_idf2 '
+    'MATCH (mat)-[r2:HAS]->(term:Term) '
+    'WITH mat, num, sum_tf_idf1, term, '
+    '((log10(r2.quantity)/log10(2))+1.0) as tf2, '
+    'log10(N/(term.occurrences*1.0))/log10(2) as idf2 '
+    'WITH mat, num, sum_tf_idf1, sum(tf2*idf2) as sum_tf_idf2 '
     
-    'WITH mat, num / sqrt(soma_tf_idf1*soma_tf_idf2) as similaridade '
-    'RETURN mat { .* , similaridade}'
-    'ORDER by similaridade desc '
+    'WITH mat, num / sqrt(sum_tf_idf1*sum_tf_idf2) as similarity'
+    'RETURN mat { .* , similarity}'
+    'ORDER by similarity desc '
 )

@@ -8,17 +8,12 @@ import logging
 logging.propagate = False
 logging.getLogger().setLevel(logging.ERROR)
 
-logger = logging.getLogger('ext_mat_edu')
+logger = logging.getLogger('ext_edu_mat')
 logger.setLevel(logging.INFO)
 
-#Usando pdfminer
-#Alternativa: pypdf2
-def pdf2txt(path: str) -> str:
-    """
-Transforma um arquivo pdf em uma string
-    :param path: Caminho para o arquivo pdf
-    :return: String com o texto do pdf
-    """
+# Using pdfminer
+# Alternative: pypdf2
+def pdf2txt(path):
 
     fp = open(path, 'rb')
     parser = PDFParser(fp)

@@ -1,16 +1,13 @@
 import scrapy
 from tqdm import tqdm
-import logging
 
-from rec_edu_utils.models.temas import Temas
+from rec_edu_utils.models.topics import Topics
 
 from pre_rec.spider.parser_material import ParserMaterial
-from pre_rec.google_api.busca import googleSearch
+from pre_rec.google_api.search import googleSearch
 
-logging.getLogger().setLevel(logging.ERROR)
-
-class SpiderMateriais(scrapy.Spider):
-    name = 'ext_mat_edu'
+class SpiderMaterials(scrapy.Spider):
+    name = 'ext_edu_mat'
 
     custom_settings = {
         "ITEM_PIPELINES": {
@@ -23,22 +20,22 @@ class SpiderMateriais(scrapy.Spider):
     p_bar = None
 
     def start_requests(self):
-        lista_resultados = []
+        result_list = []
 
-        for termo_busca in tqdm(Temas, desc='GoogleSearch'):
-            lista_resultados += googleSearch(termo_busca)
+        for search_term in tqdm(Topics, desc='GoogleSearch'):
+            result_list += googleSearch(search_term)
 
-        self.p_bar = tqdm(desc='Materiais', total=len(lista_resultados))
+        self.p_bar = tqdm(desc='Materials', total=len(result_list))
 
-        for resultado in lista_resultados:
-            material = ParserMaterial.get_metadados(resultado)
+        for result in result_list:
+            material = ParserMaterial.get_metadata(result)
             yield scrapy.Request(material['link'],
                                  meta={'Material': material},
                                  callback=self.parse,
                                  errback=self.errback)
 
     def parse(self, response):
-        status = ParserMaterial.get_conteudo(self, response)
+        status = ParserMaterial.get_content(self, response)
         if status:
             yield response.meta['Material']
 

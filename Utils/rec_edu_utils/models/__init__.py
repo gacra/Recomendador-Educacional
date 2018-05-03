@@ -1,6 +1,6 @@
 class Field(object):
     '''
-    Classe Field
+    Class Field
     '''
 
 
@@ -19,7 +19,7 @@ class Item(dict):
         for field in self.fields:
             dict.__setitem__(self, field, kwargs.get(field, self.get(field)))
 
-    # Quando usuado com dict
+    # When used as dict
     def __setitem__(self, key, value):
         if isinstance(object.__getattribute__(self, key), Field):
             dict.__setitem__(self, key, value)
@@ -27,7 +27,7 @@ class Item(dict):
     def __getitem__(self, key):
         return dict.__getitem__(self, key)
 
-    # Quando usado como classe
+    # When used as class
     def __setattr__(self, name, value):
         if isinstance(object.__getattribute__(self, name), Field):
             dict.__setitem__(self, name, value)

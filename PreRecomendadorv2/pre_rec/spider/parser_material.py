@@ -3,43 +3,44 @@ from bs4 import BeautifulSoup
 from uuid import uuid5, NAMESPACE_X500
 
 from rec_edu_utils.models.material import Material
-from pre_rec import RE_TERMOS
+from pre_rec import RE_TERMS
 
 
 class ParserMaterial(object):
+
     @staticmethod
-    def get_metadados(resultado):
-        titulo = resultado.get('title')
-        link = resultado.get('link')
-        resumo = resultado.get('snippet')
-        resumo = resumo.replace(u"\n", "").replace(u"\xa0", "")
-        tema = resultado.get('termo_busca')
+    def get_metadata(result):
+        title = result.get('title')
+        link = result.get('link')
+        summary = result.get('snippet')
+        summary = summary.replace(u"\n", "").replace(u"\xa0", "")
+        topic = result.get('search_term')
         _id = 're_material.' + uuid5(NAMESPACE_X500, link).hex
 
-        tipo_item = resultado.get('fileFormat')
-        if tipo_item is None:
-            tipo_item = 'html'
-        elif tipo_item == 'PDF/Adobe Acrobat':
-            tipo_item = 'pdf'
+        type_item = result.get('fileFormat')
+        if type_item is None:
+            type_item = 'html'
+        elif type_item == 'PDF/Adobe Acrobat':
+            type_item = 'pdf'
         else:
-            tipo_item = 'outro'
+            type_item = 'other'
 
         return Material(_id=_id,
-                        titulo=titulo,
+                        title=title,
                         link=link,
-                        resumo=resumo,
-                        tipo=tipo_item,
-                        tema=tema)
+                        summary=summary,
+                        type=type_item,
+                        topic=topic)
 
     @staticmethod
-    def get_conteudo(spider, response):
+    def get_content(spider, response):
         material = response.meta['Material']
-        spider.logger.info(response.meta['Material']['titulo'])
+        spider.logger.info(response.meta['Material']['title'])
 
-        if material.tipo == 'pdf':
+        if material.type == 'pdf':
             return True
-        if material.tipo == 'outro':
-            spider.logger.info('[Item descartado] Tipo nao suportado')
+        if material.type == 'other':
+            spider.logger.info('[Dropped item] Unsupported type')
             spider.p_bar.total -= 1
             spider.p_bar.refresh()
             return False
@@ -49,7 +50,7 @@ class ParserMaterial(object):
         for script in soup.find_all(['script', 'style']):
             script.extract()
 
-        conteudo = re.findall(RE_TERMOS, soup.getText(separator=u" ").lower())
+        content = re.findall(RE_TERMS, soup.getText(separator=u" ").lower())
 
-        material.termos = conteudo
+        material.terms = content
         return True

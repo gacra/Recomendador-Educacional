@@ -4,26 +4,23 @@ import re
 import scrapy
 from scrapy.pipelines.files import FilesPipeline
 
-from pre_rec import RE_TERMOS
+from pre_rec import RE_TERMS
 
 from pre_rec.pdf_to_text import pdf2txt
 
-logger = logging.getLogger(__name__)
-
-
 class PdfParser(FilesPipeline):
     def open_spider(self, spider):
-        self.arq_path = spider.settings.get('FILES_STORE') + '/'
+        self.file_path = spider.settings.get('FILES_STORE') + '/'
         return super(PdfParser, self).open_spider(spider)
 
     def get_media_requests(self, item, info):
-        if item.tipo == 'pdf':
+        if item.type == 'pdf':
             return scrapy.Request(item.link)
 
     def item_completed(self, results, item, info):
         if results:
-            sucesso, info_arq = results[0]
-            if sucesso:
-                texto = pdf2txt(self.arq_path + info_arq['path'])
-                item.termos = re.findall(RE_TERMOS, texto.lower())
+            success, file_info = results[0]
+            if success:
+                text = pdf2txt(self.file_path + file_info['path'])
+                item.terms = re.findall(RE_TERMS, text.lower())
         return item

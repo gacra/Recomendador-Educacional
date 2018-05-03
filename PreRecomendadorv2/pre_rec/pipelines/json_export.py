@@ -1,6 +1,7 @@
 from scrapy.exporters import JsonLinesItemExporter
 import os
 
+
 class JsonExport(object):
 
     def open_spider(self, spider):
@@ -9,10 +10,10 @@ class JsonExport(object):
         else:
             path = '../' + os.getcwd().split('/')[-1] + 'Data'
 
-        nome_arq = spider.name + '.json'
+        file_name = spider.name + '.json'
 
-        self._arq = open(path + nome_arq, 'w+b')
-        self._exporter = JsonLinesItemExporter(self._arq)
+        self._file = open(path + file_name, 'w+b')
+        self._exporter = JsonLinesItemExporter(self._file)
 
     def process_item(self, item, spider):
         self._exporter.export_item(item)
@@ -20,4 +21,4 @@ class JsonExport(object):
         return item
 
     def close_spider(self, spider):
-        self._arq.close()
+        self._file.close()

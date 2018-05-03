@@ -1,3 +1,3 @@
 import re
 
-RE_TERMOS = re.compile('[\d\-_]*[^\W\d_][\w-]*')
+RE_TERMS = re.compile('[\d\-_]*[^\W\d_][\w-]*')

@@ -6,145 +6,142 @@ import rec_edu_utils.database.queries as queries
 
 
 class Neo4jDB(object):
+
     def __init__(self):
         self._driver = GraphDatabase.driver(neo4j_uri,
                                             auth=(neo4j_user, neo4j_password))
         self.logger = logging.getLogger(self.__class__.__name__)
 
-    ## Inserir Pergunta Crua ##
+    ## Insert raw questions ##
 
-    def inserir_pergunta(self, dict_pergunta):
+    def insert_question(self, dict_question):
         with self._driver.session() as session:
-            session.write_transaction(self._inserir_pergunta_tx, dict_pergunta)
+            session.write_transaction(self._insert_question_tx, dict_question)
 
     @staticmethod
-    def _inserir_pergunta_tx(tx, props):
-        tx.run(queries.inserir_pergunta, props=props)
+    def _insert_question_tx(tx, props):
+        tx.run(queries.insert_question, props=props)
 
-    ## Upsert de Perguntas e Materiais ##
+    ## Upsert questions and materials ##
 
     def upsert_material(self, dict_material):
         label = 'Material'
         self._upsert_item(dict_material, label)
 
-    def upsert_pergunta(self, dict_pergunta):
-        label = 'Pergunta'
-        self._upsert_item(dict_pergunta, label)
+    def upsert_question(self, dict_question):
+        label = 'Question'
+        self._upsert_item(dict_question, label)
 
     def _upsert_item(self, dict_item, label):
         id_ = dict_item['_id']
-        termos = dict_item['termos']
+        terms = dict_item['terms']
         props = {k: v for k, v in dict_item.items() if
-                 k not in ['_id', 'termos']}
+                 k not in ['_id', 'terms']}
 
         with self._driver.session() as session:
-            self.logger.info('Inserindo item: {}'.format(id_))
+            self.logger.info('Inserting item: {}'.format(id_))
             session.write_transaction(self._upsert_item_tx,
-                                      label, id_, props, termos)
+                                      label, id_, props, terms)
 
-            self.logger.info('Removendo termos: {}'.format(id_))
-            session.write_transaction(self._remover_termos_tx, label, id_)
+            self.logger.info('Removing terms: {}'.format(id_))
+            session.write_transaction(self._remove_terms_tx, label, id_)
 
-            self.logger.info('Inserindo contagem nos termos: {}'.format(id_))
-            session.write_transaction(self._inserir_contagem, label, id_)
+            self.logger.info('Inserting count in terms: {}'.format(id_))
+            session.write_transaction(self._insert_count_tx, label, id_)
 
     @staticmethod
-    def _upsert_item_tx(tx, label, id_, props, termos):
+    def _upsert_item_tx(tx, label, id_, props, terms):
         tx.run(queries.upsert_material % label,
                id=id_,
                props=props,
-               termos=termos)
+               terms=terms)
 
     @staticmethod
-    def _remover_termos_tx(tx, label, id_):
-        tx.run(queries.remover_termos % label,
+    def _remove_terms_tx(tx, label, id_):
+        tx.run(queries.remove_terms % label,
                id=id_)
 
     @staticmethod
-    def _inserir_contagem(tx, label, id_):
-        tx.run(queries.inserir_contagem % label,
+    def _insert_count_tx(tx, label, id_):
+        tx.run(queries.insert_count % label,
                id=id_)
 
-    ## Obter Perguntas Cruas ##
+    ## Get raw questions ##
 
-    def obter_perguntas_cruas(self):
+    def get_raw_questions(self):
         with self._driver.session() as session:
-            resultado = session.read_transaction(self._obter_perguntas_cruas_tx)
-            return [dict(registro['perg']) for registro in resultado]
+            result = session.read_transaction(self._get_raw_questions_tx)
+            return [dict(record['question']) for record in result]
 
     @staticmethod
-    def _obter_perguntas_cruas_tx(tx):
-        return tx.run(queries.obter_perguntas_cruas)
+    def _get_raw_questions_tx(tx):
+        return tx.run(queries.get_raw_questions)
 
-    ## Obter Conteúdo das Perguntas ##
+    ## Get questions ##
 
-    def obter_perguntas(self, lista_ids=None):
+    def get_questions(self, id_list=None):
         with self._driver.session() as session:
-            if not lista_ids:
-                resultado = session.read_transaction(self._obter_perguntas_tx)
+            if not id_list:
+                result = session.read_transaction(self._get_questions_tx)
             else:
-                resultado = session.read_transaction(
-                    self._obter_perguntas_por_ids_tx, lista_ids)
+                result = session.read_transaction(
+                    self._get_questions_by_ids_tx, id_list)
 
-            return [dict(registro['perg']) for registro in resultado]
-
-    @staticmethod
-    def _obter_perguntas_tx(tx):
-        return tx.run(queries.obter_perguntas)
+            return [dict(record['question']) for record in result]
 
     @staticmethod
-    def _obter_perguntas_por_ids_tx(tx, lista_ids):
-        return tx.run(queries.obter_perguntas_por_ids, lista_ids=lista_ids)
+    def _get_questions_tx(tx):
+        return tx.run(queries.get_questions)
 
-    ## Obter IDs das Perguntas por Temas ##
+    @staticmethod
+    def _get_questions_by_ids_tx(tx, id_list):
+        return tx.run(queries.get_questions_by_id, id_list=id_list)
 
-    def obter_perguntas_temas(self, lista_temas=None):
+    ## Get ids of questions by topic ##
+
+    def get_questions_by_topic(self, topic_list=None):
         with self._driver.session() as session:
-            if not lista_temas:
-                resultado = session.read_transaction(
-                    self._obter_perguntas_todos_temas_tx)
+            if not topic_list:
+                result = session.read_transaction(
+                    self._get_questions_all_topics_tx)
             else:
-                lista_temas_texto = [tema.name for tema in lista_temas]
-                resultado = session.read_transaction(
-                    self._obter_perguntas_temas_tx, lista_temas_texto)
+                topic_list_text = [topic.name for topic in topic_list]
+                result = session.read_transaction(
+                    self._get_questions_by_topic_tx, topic_list_text)
 
-            return {registro['tema']: registro['lista_ids'] for registro in
-                    resultado}
-
-    @staticmethod
-    def _obter_perguntas_todos_temas_tx(tx):
-        return tx.run(queries.obter_perguntas_todos_temas)
+            return {record['topic']: record['id_list'] for record in result}
 
     @staticmethod
-    def _obter_perguntas_temas_tx(tx, lista_temas_texto):
-        return tx.run(queries.obter_perguntas_temas,
-                      lista_temas=lista_temas_texto)
+    def _get_questions_all_topics_tx(tx):
+        return tx.run(queries.get_questions_all_topics)
 
-    ## Obter Respostas ##
+    @staticmethod
+    def _get_questions_by_topic_tx(tx, topic_list_text):
+        return tx.run(queries.get_questions_topics, lista_temas=topic_list_text)
 
-    def obter_respostas(self, lista_ids):
+    ## Get answers ##
+
+    def get_answers(self, id_list):
         with self._driver.session() as session:
-            resultado = session.read_transaction(self._obter_respostas_tx,
-                                                 lista_ids)
-            return {registro['id']: registro['alt_correta'] for registro in
-                    resultado}
+            result = session.read_transaction(self._get_answers_tx, id_list)
+            return {record['id']: record['correct_alt'] for record in result}
 
     @staticmethod
-    def _obter_respostas_tx(tx, lista_ids):
-        return tx.run(queries.obter_respostas, lista_ids=lista_ids)
+    def _get_answers_tx(tx, id_list):
+        return tx.run(queries.get_answers, id_list=id_list)
+
+    ## similarity ##
+
+    def get_similar_materials(self, question_id_list):
+        with self._driver.session() as session:
+            result = session.read_transaction(
+                self._get_similar_materials_tx, question_id_list)
+            return [dict(record['mat']) for record in result]
+
+    @staticmethod
+    def _get_similar_materials_tx(tx, question_id_list):
+        return tx.run(queries.get_similar_materials,
+                      question_id_list=question_id_list)
 
     def close(self):
         self._driver.close()
-
-    ## Similaridade ##
-
-    def obter_materiais_similares(self, lista_ids_perguntas):
-        with self._driver.session() as session:
-            resultado = session.read_transaction(
-                self.obter_materiais_similares_tx, lista_ids_perguntas)
-            return [dict(registro['mat']) for registro in resultado]
-
-    @staticmethod
-    def obter_materiais_similares_tx(tx, lista_ids_perguntas):
-        return tx.run(queries.obter_materiais_similares,
-                      lista_ids_pergs=lista_ids_perguntas)

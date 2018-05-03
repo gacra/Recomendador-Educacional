@@ -1,30 +1,21 @@
-import math
-
 
 class FreqCalc(object):
 
-    def open_spider(self, spider):
-        self.tam_conj_itens = 0
-
     def process_item(self, item, spider):
-        self.tam_conj_itens +=1
 
-        vet_termos = item.termos
-        vet_freq = {}
+        terms_vector = item.terms
+        freq_vector = {}
 
-        if vet_termos:
-            for termo in vet_termos:
-                if vet_freq.get(termo) is None:
-                    vet_freq[termo] = FreqCalc.obter_freq(vet_termos, termo)
+        if terms_vector:
+            for term in terms_vector:
+                if freq_vector.get(term) is None:
+                    freq_vector[term] = FreqCalc.get_freq(terms_vector, term)
 
-        # item.termos = vet_freq
-        item.termos = {k:v for k,v in vet_freq.items() if v>1}
+        # item.terms = freq_vector
+        item.terms = {k:v for k, v in freq_vector.items() if v > 1}
         return item
 
     @staticmethod
-    def obter_freq(vet_termos, termo):
-        freq = vet_termos.count(termo)
+    def get_freq(terms_vector, term):
+        freq = terms_vector.count(term)
         return freq
-
-    def close_spider(self, spider):
-        spider.logger.info('Numero de itens: {}'.format(self.tam_conj_itens))
