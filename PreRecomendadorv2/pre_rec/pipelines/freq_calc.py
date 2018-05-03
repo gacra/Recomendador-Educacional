@@ -1,5 +1,11 @@
+import nltk
+
 
 class FreqCalc(object):
+
+    def __init__(self):
+        nltk.download('stopwords')
+        self.stopwords = nltk.corpus.stopwords.words('portuguese')
 
     def process_item(self, item, spider):
 
@@ -8,11 +14,12 @@ class FreqCalc(object):
 
         if terms_vector:
             for term in terms_vector:
-                if freq_vector.get(term) is None:
+                if (freq_vector.get(term) is None) \
+                        and (term not in self.stopwords):
                     freq_vector[term] = FreqCalc.get_freq(terms_vector, term)
 
-        # item.terms = freq_vector
-        item.terms = {k:v for k, v in freq_vector.items() if v > 1}
+        item.terms = freq_vector
+        # item.terms = {k:v for k, v in freq_vector.items() if v > 1}
         return item
 
     @staticmethod
