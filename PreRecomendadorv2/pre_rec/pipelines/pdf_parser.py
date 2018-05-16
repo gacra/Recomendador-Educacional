@@ -1,6 +1,5 @@
-import logging
-
 import re
+import os
 import scrapy
 from scrapy.pipelines.files import FilesPipeline
 
@@ -23,4 +22,5 @@ class PdfParser(FilesPipeline):
             if success:
                 text = pdf2txt(self.file_path + file_info['path'])
                 item.terms = re.findall(RE_TERMS, text.lower())
+                os.remove(file_info['path'])
         return item
