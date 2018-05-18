@@ -70,19 +70,19 @@ get_similar_materials = (
     'MATCH (item) '
     'WHERE item:Material or item:Question '
     'WITH count(item) as N '
-    
+
     'WITH N, $question_id_list as questions_ids '
     'MATCH (question:Question) '
     'WHERE question._id in questions_ids '
     'WITH  N, collect(question) as question_list '
-    
+
     'UNWIND question_list as question '
     'MATCH (question)-[r1:HAS]->(term:Term) '
     'WITH N, question_list, term, '
     '((log10(sum(r1.quantity))/log10(2))+1.0) as tf1, '
     'log10(N/(term.occurrences*1.0))/log10(2) as idf1 '
     'WITH N, question_list, sum(tf1*idf1) as sum_tf_idf1 '
-    
+
     'UNWIND question_list as question '
     'MATCH (question)-[r1:HAS]->(term:Term)<-[r2:HAS]-(mat:Material) '
     'WITH N, mat, sum_tf_idf1, term, '
@@ -90,13 +90,13 @@ get_similar_materials = (
     '((log10(r2.quantity)/log10(2))+1.0) as tf2,  '
     'log10(N/(term.occurrences*1.0))/log10(2) as idf '
     'WITH N, mat, sum(tf1*tf2*idf*idf) as num, sum_tf_idf1 '
-    
+
     'MATCH (mat)-[r2:HAS]->(term:Term) '
     'WITH mat, num, sum_tf_idf1, term, '
     '((log10(r2.quantity)/log10(2))+1.0) as tf2, '
     'log10(N/(term.occurrences*1.0))/log10(2) as idf2 '
     'WITH mat, num, sum_tf_idf1, sum(tf2*idf2) as sum_tf_idf2 '
-    
+
     'WITH mat, num / sqrt(sum_tf_idf1*sum_tf_idf2) as similarity'
     'RETURN mat { .* , similarity}'
     'ORDER by similarity desc '

@@ -1,5 +1,7 @@
+import re
 import nltk
 
+from pre_rec import RE_TERMS
 
 class FreqCalc(object):
 
@@ -9,7 +11,7 @@ class FreqCalc(object):
 
     def process_item(self, item, spider):
 
-        terms_vector = item.terms
+        terms_vector = re.findall(RE_TERMS, item.terms.lower())
         freq_vector = {}
 
         if terms_vector:

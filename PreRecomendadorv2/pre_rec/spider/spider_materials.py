@@ -18,6 +18,7 @@ class SpiderMaterials(scrapy.Spider):
     }
 
     p_bar = None
+    tqdm.monitor_interval = 0
 
     def start_requests(self):
         result_list = []

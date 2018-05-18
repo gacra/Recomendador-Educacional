@@ -1,3 +1,21 @@
+{"stem": "Na linguagem C, as strings “%d”, “%f” e “%s” estão usualmente associadas ao uso da função:",
+"alternatives": ["getch", "printf", "main", "void", "feof"], 
+"correct_alt": 1, 
+"topic": "FUNCOES"}
+
+{"stem": "Qual das instruções abaixo é correta para declarar um ponteiro para inteiro?",
+"alternatives": ["*int pti;", "*pti;", "&i;", "int_pti pti;", "int *pti;"]}
+
+
+
+
+
+
+
+
+
+
+
 {"enunciado": "Programe um aplicativo em C que acha todos os números primos até 1000. Número primo é aquele que é divisível somente por 1 e por ele mesmo.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "TIPOS_DADOS"}
 {"enunciado": "O exercício 4 mostra um exemplo de função que retorna um ponteiro. A função achaSobrenomeretorna o ponteiropnome. O que você acha que o programa imprime?", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "PONTEIROS"}
 {"enunciado": "Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2] ?", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "PONTEIROS"}
