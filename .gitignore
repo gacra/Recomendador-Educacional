@@ -2,7 +2,6 @@
 pdfs/
 workspace.xml
 *.re
-output_data/
 Debug*
 
 # Byte-compiled / optimized / DLL files

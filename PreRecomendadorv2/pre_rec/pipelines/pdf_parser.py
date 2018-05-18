@@ -2,6 +2,8 @@ import os
 import scrapy
 from scrapy.pipelines.files import FilesPipeline
 
+from rec_edu_utils.models.material import Material
+
 from pre_rec.pdf_to_text import pdf2txt
 
 class PdfParser(FilesPipeline):
@@ -10,7 +12,7 @@ class PdfParser(FilesPipeline):
         return super(PdfParser, self).open_spider(spider)
 
     def get_media_requests(self, item, info):
-        if item.type == 'pdf':
+        if isinstance(item, Material) and item.type == 'pdf':
             return scrapy.Request(item.link)
 
     def item_completed(self, results, item, info):

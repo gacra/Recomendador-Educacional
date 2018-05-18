@@ -16,6 +16,11 @@ class Item(dict):
             if isinstance(attr, Field):
                 self.fields.add(attr_name)
 
+        if args and isinstance(args[0], dict):
+            dict_args = dict(args[0])
+            dict_args.update(kwargs)
+            kwargs = dict_args
+
         for field in self.fields:
             dict.__setitem__(self, field, kwargs.get(field, self.get(field)))
 
