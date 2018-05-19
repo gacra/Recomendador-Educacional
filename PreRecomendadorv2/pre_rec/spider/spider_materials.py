@@ -10,13 +10,11 @@ class SpiderMaterials(scrapy.Spider):
     name = 'ext_edu_mat'
 
     custom_settings = {
-        "SPIDER_MIDDLEWARES": {
-            'pre_rec.middlewares.add_questions.AddRawQuestions': 101
-        },
         "ITEM_PIPELINES": {
             'pre_rec.pipelines.pdf_parser.PdfParser': 101,
             'pre_rec.pipelines.freq_calc.FreqCalc': 201,
-            'pre_rec.pipelines.json_export.JsonExport': 301
+            'pre_rec.pipelines.json_export.JsonExport': 301,
+            'pre_rec.pipelines.db_export.Neo4jDBExport': 401
         }
     }
 
