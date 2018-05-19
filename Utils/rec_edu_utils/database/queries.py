@@ -97,7 +97,7 @@ get_similar_materials = (
     'log10(N/(term.occurrences*1.0))/log10(2) as idf2 '
     'WITH mat, num, sum_tf_idf1, sum(tf2*idf2) as sum_tf_idf2 '
 
-    'WITH mat, num / sqrt(sum_tf_idf1*sum_tf_idf2) as similarity'
-    'RETURN mat { .* , similarity}'
+    'WITH mat, num / sqrt(sum_tf_idf1*sum_tf_idf2) as similarity '
+    'RETURN mat { .* , similarity} ' 
     'ORDER by similarity desc '
 )
