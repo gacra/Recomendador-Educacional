@@ -1,10 +1,11 @@
 import os
+
 import scrapy
+from rec_edu_utils.models.material import Material
 from scrapy.pipelines.files import FilesPipeline
 
-from rec_edu_utils.models.material import Material
-
 from pre_rec.pdf_to_text import pdf2txt
+
 
 class PdfParser(FilesPipeline):
     def open_spider(self, spider):

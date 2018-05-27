@@ -4,9 +4,14 @@
 "topic": "FUNCOES"}
 
 {"stem": "Qual das instruções abaixo é correta para declarar um ponteiro para inteiro?",
-"alternatives": ["*int pti;", "*pti;", "&i;", "int_pti pti;", "int *pti;"]}
+"alternatives": ["*int pti;", "*pti;", "&i;", "int_pti pti;", "int *pti;"],
+"correct_alt": 4,
+"topic": "PONTEIROS"}
 
-
+{"stem": "Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2]?",
+"alternatives": ["O segundo", "O terceiro", "O comando não está correto"], 
+"correct_alt": 2, 
+"topic": "PONTEIROS"}
 
 
 

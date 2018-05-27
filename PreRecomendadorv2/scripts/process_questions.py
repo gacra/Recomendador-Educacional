@@ -5,12 +5,14 @@ from rec_edu_utils.models.question import Question
 
 sys.path.append('.')
 
+from pre_rec.pipelines.requirements import CheckRequirements
 from pre_rec.pipelines.freq_calc import FreqCalc
 from pre_rec.pipelines.json_export import JsonExport
 from pre_rec.pipelines.db_export import Neo4jDBExport
 
 db = Neo4jDB()
 
+check_req_pipe = CheckRequirements()
 freq_calc_pipe = FreqCalc()
 json_export_pipe = JsonExport()
 json_export_pipe.open_spider(None)
@@ -26,6 +28,7 @@ for raw_question_db in raw_question_db_list:
     terms += ' '.join(raw_question_db['alternatives'])
     question = Question(raw_question_db, terms=terms)
 
+    question = check_req_pipe.process_item(question, None)
     question = freq_calc_pipe.process_item(question, None)
     question = json_export_pipe.process_item(question, None)
     question = db_export_pipe.process_item(question, None)

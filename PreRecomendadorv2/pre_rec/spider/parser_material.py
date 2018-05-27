@@ -1,7 +1,6 @@
-import re
-from bs4 import BeautifulSoup
 from uuid import uuid5, NAMESPACE_X500
 
+from bs4 import BeautifulSoup
 from rec_edu_utils.models.material import Material
 
 
@@ -34,7 +33,6 @@ class ParserMaterial(object):
     @staticmethod
     def get_content(spider, response):
         material = response.meta['Material']
-        spider.logger.info(response.meta['Material']['title'])
 
         if material.type == 'pdf':
             return True

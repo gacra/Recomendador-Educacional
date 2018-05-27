@@ -4,10 +4,10 @@ upsert_material = (
     'SET item += $props '
     'SET item.update = timestamp()'
     'FOREACH(term in keys(terms_map) | '
-        'MERGE(ter:Term {term:toLower(term)}) '
-        'MERGE (ter)<-[r:HAS]-(item) '
-        'SET r.quantity = terms_map[term]'
-        'SET r.update = timestamp())')
+    'MERGE(ter:Term {term:toLower(term)}) '
+    'MERGE (ter)<-[r:HAS]-(item) '
+    'SET r.quantity = terms_map[term]'
+    'SET r.update = timestamp())')
 
 remove_terms = (
     'MATCH (item:%s {_id: $id})-[r:HAS]->(term:Term) '
@@ -98,6 +98,6 @@ get_similar_materials = (
     'WITH mat, num, sum_tf_idf1, sum(tf2*idf2) as sum_tf_idf2 '
 
     'WITH mat, num / sqrt(sum_tf_idf1*sum_tf_idf2) as similarity '
-    'RETURN mat { .* , similarity} ' 
+    'RETURN mat { .* , similarity} '
     'ORDER by similarity desc '
 )

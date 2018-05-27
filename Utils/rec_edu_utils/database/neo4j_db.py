@@ -1,8 +1,9 @@
-from neo4j.v1 import GraphDatabase
 import logging
 
-from rec_edu_utils.database import (neo4j_uri, neo4j_user, neo4j_password)
+from neo4j.v1 import GraphDatabase
+
 import rec_edu_utils.database.queries as queries
+from rec_edu_utils.database import (neo4j_uri, neo4j_user, neo4j_password)
 
 
 class Neo4jDB(object):

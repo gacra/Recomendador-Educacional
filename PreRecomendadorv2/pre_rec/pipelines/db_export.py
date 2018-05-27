@@ -2,6 +2,7 @@ from rec_edu_utils.database.neo4j_db import Neo4jDB
 from rec_edu_utils.models.material import Material
 from rec_edu_utils.models.question import Question
 
+
 class Neo4jDBExport(object):
 
     def open_spider(self, spider):

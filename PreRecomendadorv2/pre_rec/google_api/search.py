@@ -7,8 +7,8 @@ To install Google API:
 pip install --upgrade google-api-python-client
 '''
 
-def googleSearch(search_term):
 
+def googleSearch(search_term):
     service = build("customsearch", "v1", developerKey=api_key)
 
     result = []
@@ -32,6 +32,5 @@ def googleSearch(search_term):
         for item in res.get('items'):
             item['search_term'] = search_term.name
             result.append(item)
-
 
     return result

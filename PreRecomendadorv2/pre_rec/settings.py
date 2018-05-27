@@ -14,3 +14,5 @@ LOG_LEVEL = 'INFO'
 FILES_STORE = './pdfs'
 
 MEDIA_ALLOW_REDIRECTS = True
+
+LOG_FORMATTER = 'pre_rec.pipelines.PoliteLogFormatter'

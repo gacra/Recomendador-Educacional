@@ -1,6 +1,6 @@
 from scrapy.exporters import JsonLinesItemExporter
+
 from pre_rec.settings import EXPORTER_PATH
-import os
 
 
 class JsonExport(object):

@@ -1,9 +1,9 @@
-from pdfminer.pdfparser import PDFParser, PDFDocument
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+import logging
+
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LAParams, LTTextBox, LTTextLine
-
-import logging
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.pdfparser import PDFParser, PDFDocument
 
 logging.propagate = False
 logging.getLogger().setLevel(logging.ERROR)
@@ -11,10 +11,10 @@ logging.getLogger().setLevel(logging.ERROR)
 logger = logging.getLogger('ext_edu_mat')
 logger.setLevel(logging.INFO)
 
+
 # Using pdfminer
 # Alternative: pypdf2
 def pdf2txt(path):
-
     fp = open(path, 'rb')
     parser = PDFParser(fp)
     doc = PDFDocument()
@@ -28,7 +28,10 @@ def pdf2txt(path):
     laparams.word_margin = 1.0
     '''
     laparams = LAParams()
-    for param in ("all_texts", "detect_vertical", "word_margin", "char_margin", "line_margin", "boxes_flow"):
+    for param in (
+            "all_texts", "detect_vertical", "word_margin", "char_margin",
+            "line_margin",
+            "boxes_flow"):
         paramv = locals().get(param, None)
         if paramv is not None:
             setattr(laparams, param, paramv)
