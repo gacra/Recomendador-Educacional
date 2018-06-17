@@ -1,7 +1,7 @@
 ** Schema **
 
-CREATE CONSTRAINT ON (perg:Pergunta) ASSERT perg.id IS UNIQUE
-CREATE CONSTRAINT ON (mat:Material) ASSERT mat.id IS UNIQUE
+CREATE CONSTRAINT ON (material:Material) ASSERT material._id IS UNIQUE
+CREATE CONSTRAINT ON (question:Question) ASSERT question._id IS UNIQUE
 (Para o termo tb??!!)
 
 ** Criação dos materiais **
