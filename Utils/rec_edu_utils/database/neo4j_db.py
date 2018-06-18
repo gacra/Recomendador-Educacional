@@ -118,7 +118,7 @@ class Neo4jDB(object):
 
     @staticmethod
     def _get_questions_by_topic_tx(tx, topic_list_text):
-        return tx.run(queries.get_questions_topics, lista_temas=topic_list_text)
+        return tx.run(queries.get_questions_topics, topic_list=topic_list_text)
 
     ## Get answers ##
 
