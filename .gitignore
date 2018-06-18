@@ -3,6 +3,7 @@ pdfs/
 workspace.xml
 *.re
 Debug*
+*.sqlite3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
