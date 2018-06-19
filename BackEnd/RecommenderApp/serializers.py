@@ -1,8 +1,30 @@
 from rest_framework import serializers
 
+from RecommenderApp import NUMBER_OF_QUESTIONS
 
-class QuestionsSerializer(serializers.Serializer):
+
+class QuestionSerializer(serializers.Serializer):
     _id = serializers.CharField(read_only=True)
     stem = serializers.CharField()
     alternatives = serializers.ListField(child=serializers.CharField())
     topic = serializers.CharField()
+
+
+class QuestionIDListSerizalizer(serializers.Serializer):
+    id_list = serializers.ListField(child=serializers.CharField(max_length=20),
+                                    max_length=NUMBER_OF_QUESTIONS)
+
+
+class AnswerSerializer(serializers.Serializer):
+    id = serializers.CharField(read_only=True)
+    correct_alt = serializers.IntegerField(read_only=True)
+
+
+class MaterialSerializer(serializers.Serializer):
+    _id = serializers.CharField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    link = serializers.CharField(read_only=True)
+    summary = serializers.CharField(read_only=True)
+    type = serializers.CharField(read_only=True)
+    topic = serializers.CharField(read_only=True)
+    similarity = serializers.FloatField(read_only=True)
