@@ -125,7 +125,7 @@ class Neo4jDB(object):
     def get_answers(self, id_list):
         with self._driver.session() as session:
             result = session.read_transaction(self._get_answers_tx, id_list)
-            return {record['id']: record['correct_alt'] for record in result}
+            return [dict(record) for record in result]
 
     @staticmethod
     def _get_answers_tx(tx, id_list):
