@@ -1,13 +1,19 @@
+from rec_edu_utils.models.topics import Topics
 from rest_framework import serializers
 
-from RecommenderApp import NUMBER_OF_QUESTIONS
+from RecommenderApp import NUMBER_OF_QUESTIONS, db
+
+TOPIC_CHOICES = [topic.name for topic in Topics]
 
 
 class QuestionSerializer(serializers.Serializer):
     _id = serializers.CharField(read_only=True)
     stem = serializers.CharField()
     alternatives = serializers.ListField(child=serializers.CharField())
-    topic = serializers.CharField()
+    topic = serializers.ChoiceField(choices=TOPIC_CHOICES)
+
+    def create(self, validated_data):
+        return db.insert_question(validated_data)
 
 
 class QuestionIDListSerizalizer(serializers.Serializer):

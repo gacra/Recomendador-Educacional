@@ -1,6 +1,5 @@
 import random
 
-from rec_edu_utils.database.neo4j_db import Neo4jDB
 from rec_edu_utils.models.topics import Topics
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
@@ -9,20 +8,31 @@ from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework.views import APIView
 
 from RecommenderApp import NUMBER_OF_QUESTIONS, PAGE_SIZE
+from RecommenderApp import db
 from RecommenderApp.serializers import (QuestionSerializer,
                                         QuestionIDListSerizalizer,
                                         AnswerSerializer,
                                         MaterialSerializer)
-
-db = Neo4jDB()
 
 
 class QuestionsAll(APIView):
 
     def get(self, request, format=None):
         questions = db.get_questions()
-        serializer = QuestionSerializer(questions, many=True)
-        return Response(serializer.data)
+
+        paginator = PageNumberPagination()
+        paginator.page_size = PAGE_SIZE
+        questions_page = paginator.paginate_queryset(questions, request)
+
+        question_serializer = QuestionSerializer(questions_page, many=True)
+        return paginator.get_paginated_response(question_serializer.data)
+
+    def post(self, request, format=None):
+        serializer = QuestionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Questions(APIView):
