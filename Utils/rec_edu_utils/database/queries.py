@@ -27,7 +27,8 @@ insert_count = (
 
 insert_question = (
     'CREATE (question:Question $props) '
-    'SET question._id = "re_question." + toString(id(question))'
+    'SET question._id = "re_question." + toString(id(question)) '
+    'RETURN question'
 )
 
 get_raw_questions = (

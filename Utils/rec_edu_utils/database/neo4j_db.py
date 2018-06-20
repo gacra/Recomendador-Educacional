@@ -17,11 +17,12 @@ class Neo4jDB(object):
 
     def insert_question(self, dict_question):
         with self._driver.session() as session:
-            session.write_transaction(self._insert_question_tx, dict_question)
+            result = session.write_transaction(self._insert_question_tx, dict_question)
+            return dict(result.single()['question'])
 
     @staticmethod
     def _insert_question_tx(tx, props):
-        tx.run(queries.insert_question, props=props)
+        return tx.run(queries.insert_question, props=props)
 
     ## Upsert questions and materials ##
 
