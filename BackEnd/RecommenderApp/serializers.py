@@ -34,3 +34,7 @@ class MaterialSerializer(serializers.Serializer):
     type = serializers.CharField(read_only=True)
     topic = serializers.CharField(read_only=True)
     similarity = serializers.FloatField(read_only=True)
+
+class TopicsSerializer(serializers.Serializer):
+    code = serializers.CharField(read_only=True)
+    description = serializers.CharField(read_only=True)

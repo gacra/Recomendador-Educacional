@@ -3,16 +3,19 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from RecommenderApp import views
 
-re_questions_all = r'^questions/$'
-re_questions = r'^questions/topics=(?P<topics_text>(([A-Z]+-)*([A-Z]+))|)/$'
+re_questions = r'^questions/$'
+re_questions_by_topics = (r'^questions/'
+                          'topics=(?P<topics_text>(([A-Z]+-)*([A-Z]+))|)/$')
 re_answers = r'^answers/$'
 re_materials = r'^materials/$'
+re_topics_reference = r'^topics/$'
 
 urlpatterns = [
-    url(re_questions_all, views.QuestionsAll.as_view()),
     url(re_questions, views.Questions.as_view()),
+    url(re_questions_by_topics, views.QuestionsByTopics.as_view()),
     url(re_answers, views.Answers.as_view()),
     url(re_materials, views.Materials.as_view()),
+    url(re_topics_reference, views.TopicsReference.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

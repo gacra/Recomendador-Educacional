@@ -12,10 +12,11 @@ from RecommenderApp import db
 from RecommenderApp.serializers import (QuestionSerializer,
                                         QuestionIDListSerizalizer,
                                         AnswerSerializer,
-                                        MaterialSerializer)
+                                        MaterialSerializer,
+                                        TopicsSerializer)
 
 
-class QuestionsAll(APIView):
+class Questions(APIView):
 
     def get(self, request, format=None):
         questions = db.get_questions()
@@ -35,7 +36,7 @@ class QuestionsAll(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Questions(APIView):
+class QuestionsByTopics(APIView):
 
     def get(self, request, topics_text, format=None):
 
@@ -104,6 +105,15 @@ class Materials(APIView):
 
         material_serializer = MaterialSerializer(materials_page, many=True)
         return paginator.get_paginated_response(material_serializer.data)
+
+
+class TopicsReference(APIView):
+
+    def get(self, request, format=None):
+        topics_reference = [{"code": topic.name, "description": topic.value} for
+                            topic in Topics]
+        serializer = TopicsSerializer(topics_reference, many=True)
+        return Response(serializer.data)
 
 
 def get_question_id_list(request):
