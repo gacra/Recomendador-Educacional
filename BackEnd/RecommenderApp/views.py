@@ -1,11 +1,12 @@
 import random
 
 from rec_edu_utils.models.topics import Topics
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 from RecommenderApp import NUMBER_OF_QUESTIONS, PAGE_SIZE
 from RecommenderApp import db
@@ -17,6 +18,9 @@ from RecommenderApp.serializers import (QuestionSerializer,
 
 
 class Questions(APIView):
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request, format=None):
         questions = db.get_questions()

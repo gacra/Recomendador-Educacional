@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from RecommenderApp import views
@@ -16,6 +16,7 @@ urlpatterns = [
     url(re_answers, views.Answers.as_view()),
     url(re_materials, views.Materials.as_view()),
     url(re_topics_reference, views.TopicsReference.as_view()),
+    url(r'^api-auth/', include('rest_framework.urls')),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
