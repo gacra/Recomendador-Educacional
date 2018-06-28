@@ -8,9 +8,9 @@ from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-from RecommenderApp import NUMBER_OF_QUESTIONS, PAGE_SIZE
-from RecommenderApp import db
-from RecommenderApp.serializers import (QuestionSerializer,
+from RecommenderAPI import NUMBER_OF_QUESTIONS, PAGE_SIZE
+from RecommenderAPI import db
+from RecommenderAPI.serializers import (QuestionSerializer,
                                         QuestionIDListSerizalizer,
                                         AnswerSerializer,
                                         MaterialSerializer,

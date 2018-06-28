@@ -1,14 +1,14 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from RecommenderApp import views
+from RecommenderAPI import views
 
-re_questions = r'^questions/$'
-re_questions_by_topics = (r'^questions/'
+re_questions = r'questions/$'
+re_questions_by_topics = (r'questions/'
                           'topics=(?P<topics_text>(([A-Z]+-)*([A-Z]+))|)/$')
-re_answers = r'^answers/$'
-re_materials = r'^materials/$'
-re_topics_reference = r'^topics/$'
+re_answers = r'answers/$'
+re_materials = r'materials/$'
+re_topics_reference = r'topics/$'
 
 urlpatterns = [
     url(re_questions, views.Questions.as_view()),

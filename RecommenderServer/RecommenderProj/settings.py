@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'RecommenderApp.apps.RecommenderappConfig'
+    'RecommenderAPI.apps.RecommenderapiConfig'
 ]
 
 MIDDLEWARE = [

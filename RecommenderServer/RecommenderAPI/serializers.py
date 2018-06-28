@@ -1,7 +1,7 @@
 from rec_edu_utils.models.topics import Topics
 from rest_framework import serializers
 
-from RecommenderApp import NUMBER_OF_QUESTIONS, db
+from RecommenderAPI import NUMBER_OF_QUESTIONS, db
 
 TOPIC_CHOICES = [topic.name for topic in Topics]
 

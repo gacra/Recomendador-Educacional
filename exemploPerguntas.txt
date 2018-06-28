@@ -13,6 +13,12 @@
 "correct_alt": 2, 
 "topic": "PONTEIROS"}
 
+{"stem": "A função main() deve existir em alguma parte de um programa em C e marca o ponto de início da execução.",
+"alternatives": ["Verdadeiro", "Falso"], 
+"correct_alt": 0, 
+"topic": "PONTEIROS"}
+
+
 
 
 
