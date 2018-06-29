@@ -1,5 +1,7 @@
 import React from 'react';
+
 import '../index.css'
+import colors from '../utils'
 
 class Navbar extends React.Component {
 
@@ -12,7 +14,7 @@ class Navbar extends React.Component {
         return (
             <div className="navbar-fixed">
                 <nav>
-                    <div className="nav-wrapper orange accent-3">
+                    <div className={"nav-wrapper " + colors.orangePrimary}>
                         <div className="re-container">
                             <a href="" className="brand-logo">
                                 <i className="material-icons" style={iconStyle}>not_listed_location</i>
