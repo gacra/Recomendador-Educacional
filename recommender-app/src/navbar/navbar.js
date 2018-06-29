@@ -20,14 +20,15 @@ class Navbar extends React.Component {
                             </a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li>
-                                    <a href="https://github.com/gacra/Recomendador-Educacional" target="_blank">
+                                    <a href="https://github.com/gacra/Recomendador-Educacional"
+                                       target="_blank" rel="noopener noreferrer">
                                         <i className="material-icons left">code</i>
                                         Código fonte
                                     </a>
                                 </li>
                                 <li>
                                     <a href="https://www.linkedin.com/in/guilherme-jos%C3%A9-acra-6a5b7a11a/"
-                                       target="_blank">
+                                       target="_blank" rel="noopener noreferrer">
                                         <i className="material-icons left">person</i>
                                         Contato
                                     </a>
