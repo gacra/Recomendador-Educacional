@@ -16,7 +16,7 @@ class Tabs extends React.Component {
         let activeTab = this.props.activeTab;
         let self = this;
         let tabs = this.props.tabNames.map((value, index) => {
-            let color = activeTab === index ? colors.orangeSecondary : colors.orangeTertiary;
+            let color = activeTab === index ? colors.orangeTertiary : "";
 
             let className = "tab col s3 " + color;
 
@@ -29,11 +29,14 @@ class Tabs extends React.Component {
             )
         });
 
+        let offsetIndicator = "offset-s" + (activeTab*6) + " offset-l" + (activeTab*3);
+
         return (
             <div className="col s12">
                 <div className="card white">
                     <ul className="tabs">
                         {tabs}
+                        <li className={"indicator col s6 l3 " + offsetIndicator + " " + colors.deepOrange}></li>
                     </ul>
                 </div>
             </div>
