@@ -8,12 +8,14 @@ import Content from './content/content'
 
 // ReactDOM.render(<App />, document.getElementById('root'));
 
+let descriptionRef = React.createRef();
+
 let App = (
     <div>
         <Navbar/>
         <div className='re-container'>
-            <Description/>
-            <Content/>
+            <Description ref={descriptionRef}/>
+            <Content descriptionRef={descriptionRef}/>
         </div>
     </div>
 );

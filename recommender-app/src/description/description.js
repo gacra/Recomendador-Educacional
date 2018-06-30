@@ -1,18 +1,15 @@
 import React from 'react';
 import colors from '../utils'
 
-class Description extends React.Component {
+import '../index.css'
 
-    iconStyle = {
-        color: "#5f5f5f"
-    };
+let Description  = React.forwardRef((props, ref) => {
 
-    render() {
         return (
-            <div className="row">
+            <div className="row" ref={ref}>
                 <div className="col s10 offset-s1">
                     <div className="card white">
-                        <div className="card-content" style={this.iconStyle}>
+                        <div className="card-content textGray">
                             <p><i className={colors.orangeText}><b>Não</b> sei o que <b>não</b> sei</i> é um <i>Sistema
                                 de Recomendação
                                 Educacional.</i></p>
@@ -29,8 +26,7 @@ class Description extends React.Component {
                 </div>
             </div>
         );
-    }
 
-}
+})
 
 export default Description;

@@ -1,12 +1,15 @@
 import React from 'react';
 import colors from '../utils';
 
+import '../index.css'
+
 class Tabs extends React.Component {
 
     constructor(props) {
         super(props);
         this.changeActiveTab = this.changeActiveTab.bind(this);
     }
+
 
     changeActiveTab(index) {
         this.props.changeActiveTab(index);
@@ -34,7 +37,7 @@ class Tabs extends React.Component {
         return (
             <div className="col s12">
                 <div className="card white">
-                    <ul className="tabs">
+                    <ul className="tabs" id={"tabs"}>
                         {tabs}
                         <li className={"indicator col s6 l3 " + offsetIndicator + " " + colors.deepOrange}></li>
                     </ul>
