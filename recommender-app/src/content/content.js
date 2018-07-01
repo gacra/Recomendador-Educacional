@@ -27,7 +27,6 @@ class Content extends React.Component {
                 topics: topics
             });
 
-            console.log(topics)
         });
     }
 

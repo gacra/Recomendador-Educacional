@@ -25,15 +25,10 @@ body {
   background-color: #ffc400;
 }
 
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky.padding{
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 997;
+.btn:hover, .btn-large:hover, .btn-small:hover {
+  background-color: #ffab40;
 }
 
-/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
-  padding-top: 60px;
+.btn-large {
+  background-color: #ff9100;
 }
