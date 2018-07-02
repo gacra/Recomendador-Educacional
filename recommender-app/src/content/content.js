@@ -14,12 +14,12 @@ class Content extends React.Component {
         this.changeActiveTab = this.changeActiveTab.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         let self = this;
         axios.get('http://localhost:8000/topics/').then(function (response) {
             let topics = {};
 
-            response.data.forEach((item)=>{
+            response.data.forEach((item) => {
                 topics[item["code"]] = item["description"];
             });
 
@@ -32,7 +32,6 @@ class Content extends React.Component {
 
     changeActiveTab(index) {
         this.setState({activeTab: index})
-        window.scroll(0, this.props.descriptionRef.current.clientHeight)
     }
 
     render() {
@@ -43,7 +42,7 @@ class Content extends React.Component {
                     activeTab={this.state.activeTab}
                     changeActiveTab={this.changeActiveTab}
                 />
-                <Questions topics={this.state.topics}/>
+                <Questions topics={this.state.topics} descriptionRef={this.props.descriptionRef}/>
             </div>
         );
     }

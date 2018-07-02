@@ -4,13 +4,20 @@ import axios from 'axios';
 import Instructions from '../instructions'
 import QuestionCard from './card'
 import Button from './button'
+import Alert from './alert'
 
 class QuestionCardList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {questionsData: [], total: 0, questionsAnswers: {}, unansweredQuestions: []}
-        this.changeSelectedAlternative = this.changeSelectedAlternative.bind(this)
-        this.clickButton = this.clickButton.bind(this)
+        this.state = {
+            questionsData: [],
+            total: 0,
+            questionsAnswers: {},
+            unansweredQuestions: [],
+            questionsCorrectAlternatives: null
+        };
+        this.changeSelectedAlternative = this.changeSelectedAlternative.bind(this);
+        this.clickButton = this.clickButton.bind(this);
     }
 
     componentWillMount() {
@@ -31,22 +38,40 @@ class QuestionCardList extends React.Component {
         });
     }
 
-    changeSelectedAlternative(event) {
-        let questionId = event.target['name'];
-        let alternative = parseInt(event.target['value'], 10);
-
+    changeSelectedAlternative(questionId, alternative) {
         this.setState((prevState) => {
-           let questionsAnswers = prevState.questionsAnswers;
-
-           questionsAnswers[questionId] = alternative;
-
-           return {questionsAnswers: questionsAnswers};
+            let questionsAnswers = prevState.questionsAnswers;
+            questionsAnswers[questionId] = alternative;
+            return {questionsAnswers: questionsAnswers};
         });
     }
 
     clickButton() {
         let unanswered = checkUnanswered(this.state.questionsAnswers);
+        if (unanswered.length === 0) {
+            this.setState({
+                questionsCorrectAlternatives: {}
+            });
+            this.getQuestionsCorrectAlternatives();
+        }
         this.setState({unansweredQuestions: unanswered});
+        window.scroll({top: this.props.descriptionRef.current.clientHeight, behavior: 'smooth'})
+    }
+
+    getQuestionsCorrectAlternatives() {
+        let questionsIdList = this.state.questionsData.map((item) => {
+            return item._id;
+        });
+        axios.post('http://localhost:8000/answers/', {id_list: questionsIdList})
+            .then((response) => {
+                let questionsCorrectAlternatives = {};
+                response.data.forEach((item) => {
+                    questionsCorrectAlternatives[item.id] = item.correct_alt;
+                });
+                this.setState({
+                    questionsCorrectAlternatives: questionsCorrectAlternatives
+                });
+            });
     }
 
     render() {
@@ -54,20 +79,28 @@ class QuestionCardList extends React.Component {
 
         let cardList = questions.map((item, index) => {
             let unanswered = this.state.unansweredQuestions.includes(item._id);
+            let questionsCorrectAlternatives = this.state.questionsCorrectAlternatives;
+            let correctAlternative = questionsCorrectAlternatives !== null && (questionsCorrectAlternatives[item._id] || false);
             return <QuestionCard key={index}
                                  index={index}
                                  total={this.state.total}
                                  question={item}
                                  topics={this.props.topics}
                                  changeSelectedAlternative={this.changeSelectedAlternative}
-                                 unanswered={unanswered}/>
+                                 unanswered={unanswered}
+                                 correctAlternative={correctAlternative}/>
         });
 
         return (
             <div className='col s12'>
+                {this.state.unansweredQuestions.length > 0 &&
+                <Alert/>
+                }
                 <Instructions text="Responda as seguintes perguntas:"/>
                 {cardList}
+                {this.state.questionsCorrectAlternatives === null &&
                 <Button clickButton={this.clickButton}/>
+                }
             </div>
 
         );
@@ -75,10 +108,10 @@ class QuestionCardList extends React.Component {
 
 }
 
-var checkUnanswered = (questionsAnswers) => {
+function checkUnanswered(questionsAnswers) {
     let unanswered = [];
-    for(var key in questionsAnswers) {
-        if(questionsAnswers[key] === -1) {
+    for (var key in questionsAnswers) {
+        if (questionsAnswers[key] === -1) {
             unanswered.push(key);
         }
     }
