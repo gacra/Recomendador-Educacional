@@ -11,6 +11,9 @@ class Instructions extends React.Component {
         return (
             <div className="col s10 offset-m1">
                 <h1 style={this.headerStyle}>{this.props.text}</h1>
+                {this.props.subText &&
+                    <p>{this.props.subText}</p>
+                }
             </div>
         );
     }

@@ -10,8 +10,13 @@ class Content extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {activeTab: 0, topics: {}};
+        this.state = {
+            activeTab: 0,
+            topics: {},
+            corrected: false
+        };
         this.changeActiveTab = this.changeActiveTab.bind(this);
+        this.setCorrected = this.setCorrected.bind(this);
     }
 
     componentWillMount() {
@@ -31,7 +36,13 @@ class Content extends React.Component {
     }
 
     changeActiveTab(index) {
-        this.setState({activeTab: index})
+        this.setState({activeTab: index});
+    }
+
+    setCorrected() {
+        this.setState({
+            corrected: true
+        });
     }
 
     render() {
@@ -41,8 +52,11 @@ class Content extends React.Component {
                     tabNames={this.tabNames}
                     activeTab={this.state.activeTab}
                     changeActiveTab={this.changeActiveTab}
+                    corrected={this.state.corrected}
                 />
-                <Questions topics={this.state.topics} descriptionRef={this.props.descriptionRef}/>
+                <Questions topics={this.state.topics}
+                           descriptionRef={this.props.descriptionRef}
+                           setCorrected={this.setCorrected}/>
             </div>
         );
     }

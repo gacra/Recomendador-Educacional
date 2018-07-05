@@ -14,6 +14,7 @@ class QuestionCardList extends React.Component {
             total: 0,
             questionsAnswers: {},
             unansweredQuestions: [],
+            answered: false,
             questionsCorrectAlternatives: null
         };
         this.changeSelectedAlternative = this.changeSelectedAlternative.bind(this);
@@ -50,7 +51,7 @@ class QuestionCardList extends React.Component {
         let unanswered = checkUnanswered(this.state.questionsAnswers);
         if (unanswered.length === 0) {
             this.setState({
-                questionsCorrectAlternatives: {}
+                answered: true
             });
             this.getQuestionsCorrectAlternatives();
         }
@@ -71,7 +72,19 @@ class QuestionCardList extends React.Component {
                 this.setState({
                     questionsCorrectAlternatives: questionsCorrectAlternatives
                 });
+                this.props.setCorrected();
             });
+    }
+
+    renderInstructions() {
+        if(!this.state.answered) {
+            return (<Instructions text="Responda as seguintes perguntas:"/>)
+        } else {
+            return (<Instructions text="Veja seus acertos e erros:"
+                                  subText={<span>Depois, clique na aba <b>MATERIAIS RECOMENDADOS</b> acima para
+                                      conferir uma lista de materiais recomendados para você que preparamos baseado em
+                                      suas dificuldades!!</span>}/>)
+        }
     }
 
     render() {
@@ -96,9 +109,9 @@ class QuestionCardList extends React.Component {
                 {this.state.unansweredQuestions.length > 0 &&
                 <Alert/>
                 }
-                <Instructions text="Responda as seguintes perguntas:"/>
+                {this.renderInstructions()}
                 {cardList}
-                {this.state.questionsCorrectAlternatives === null &&
+                {!this.state.answered &&
                 <Button clickButton={this.clickButton}/>
                 }
             </div>
@@ -110,7 +123,7 @@ class QuestionCardList extends React.Component {
 
 function checkUnanswered(questionsAnswers) {
     let unanswered = [];
-    for (var key in questionsAnswers) {
+    for (let key in questionsAnswers) {
         if (questionsAnswers[key] === -1) {
             unanswered.push(key);
         }
