@@ -41,7 +41,7 @@ class NavBar extends React.Component {
                         <Toolbar>
                             <Icon className={classes.mainIcon}>not_listed_location</Icon>
                             <Typography variant="headline" color="inherit" className={classes.typography}>
-                                <b>ñ</b> sei o que <b>ñ</b> sei
+                                <a href=""><b>ñ</b> sei o que <b>ñ</b> sei</a>
                             </Typography>
                             <a href="https://github.com/gacra/Recomendador-Educacional"
                                target="_blank"

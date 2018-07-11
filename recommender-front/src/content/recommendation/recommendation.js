@@ -23,6 +23,7 @@ class Recommendation extends React.Component {
     getMaterials(page) {
         this.setState({
             materials: null,
+            page: page
         })
         window.scroll({top: (this.props.descriptionRef.current.clientHeight + 30)});
         let url = 'http://localhost:8000/materials/?page=' + (page + 1) ;
@@ -31,7 +32,6 @@ class Recommendation extends React.Component {
                 this.setState({
                     materials: response.data.results,
                     total: response.data.count,
-                    page: page
                 })
             });
     }
@@ -74,7 +74,7 @@ class Recommendation extends React.Component {
             <Grid container justify='center' spacing={16} style={{width: "100%", marginLeft: 0, marginRight: 0}}>
                 {this.getInstructions()}
                 {material === null &&
-                    <Loading/>
+                    <Loading full={true}/>
                 }
                 {materialList}
                 {(this.state.materials !== null && this.state.materials.length > 0) &&
