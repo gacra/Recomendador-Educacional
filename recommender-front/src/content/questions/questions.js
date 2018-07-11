@@ -2,10 +2,11 @@ import React from 'react'
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 
-import Instructions from '../instructions'
-import QuestionCard from './card'
-import SendButton from './button'
-import Alert from './alert'
+import Instructions from '../instructions';
+import QuestionCard from './card';
+import SendButton from './button';
+import Alert from './alert';
+import Loading from '../loading';
 
 let state = {
     questionsData: [],
@@ -123,9 +124,12 @@ class QuestionCardList extends React.Component {
                 <Alert/>
                 }
                 {this.renderInstructions()}
+                {((questions.length === 0) || (this.state.answered === true && this.state.questionsCorrectAlternatives === null)) &&
+                    <Loading/>
+                }
                 {cardList}
-                {!this.state.answered &&
-                <SendButton clickButton={this.clickButton}/>
+                {questions.length > 0 && !this.state.answered &&
+                    <SendButton clickButton={this.clickButton}/>
                 }
             </Grid>
         );
