@@ -24,9 +24,9 @@ class Recommendation extends React.Component {
         this.setState({
             materials: null,
             page: page
-        })
+        });
         window.scroll({top: (this.props.descriptionRef.current.clientHeight + 30)});
-        let url = 'http://localhost:8000/materials/?page=' + (page + 1) ;
+        let url = 'http://localhost:8000/materials/?page=' + (page + 1);
         axios.post(url, {id_list: this.props.wrongQuestions})
             .then((response) => {
                 this.setState({
@@ -45,18 +45,19 @@ class Recommendation extends React.Component {
     }
 
     getInstructions() {
-        if (this.state.materials !== null && this.state.materials.length === 0){
+        if (this.state.materials !== null && this.state.materials.length === 0) {
             return (
                 <Instructions
-                text="Parabéns!!!"
-                subText="Você acertou todas as perguntas..."/>
+                    text="Parabéns!!!"
+                    subText="Você acertou todas as perguntas..."/>
             );
         } else {
             return (
                 <Instructions
                     text="Materiais recomendados para você:"
-                    subText={'Página ' + (this.state.page + 1) + ' (' + (this.state.total) + ' resultados no total)'}/>
-            ) ;
+                    subText={'Encontramos ' + this.state.total + ' resultados (página ' + (this.state.page + 1) +
+                    ' de ' + Math.ceil(this.state.total / 10) + ')'}/>
+            );
         }
     }
 
@@ -66,7 +67,7 @@ class Recommendation extends React.Component {
 
         if (material !== null) {
             materialList = material.map((item) => {
-               return (<Material key={item._id} material={item}/>);
+                return (<Material key={item._id} material={item}/>);
             });
         }
 
@@ -74,11 +75,11 @@ class Recommendation extends React.Component {
             <Grid container justify='center' spacing={16} style={{width: "100%", marginLeft: 0, marginRight: 0}}>
                 {this.getInstructions()}
                 {material === null &&
-                    <Loading full={true}/>
+                <Loading full={true}/>
                 }
                 {materialList}
                 {(this.state.materials !== null && this.state.materials.length > 0) &&
-                    <Pagination page={this.state.page} total={this.state.total} changePage={this.changePage}/>
+                <Pagination page={this.state.page} total={this.state.total} changePage={this.changePage}/>
                 }
             </Grid>
         )
