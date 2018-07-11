@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 
 import Stepper from './stepper'
 import Questions from './questions/questions'
+import Recommendation from './recommendation/recommendation'
 
 class Content extends React.Component {
 
@@ -14,10 +15,12 @@ class Content extends React.Component {
         this.state = {
             activeTab: 0,
             topics: {},
-            step: stepsEnum.QUESTIONS
+            step: stepsEnum.QUESTIONS,
+            wrongQuestions: []
         };
         this.changeActiveTab = this.changeActiveTab.bind(this);
         this.setCorrected = this.setCorrected.bind(this);
+        this.clickStep = this.clickStep.bind(this);
     }
 
     componentWillMount() {
@@ -40,19 +43,41 @@ class Content extends React.Component {
         this.setState({activeTab: index});
     }
 
-    setCorrected() {
+    setCorrected(wrongQuestions) {
         this.setState({
             step: stepsEnum.ANSWERS
         });
+        this.setState({
+            wrongQuestions: wrongQuestions
+        });
+    }
+
+    clickStep(step) {
+        this.setState({
+            step: step
+        });
+    }
+
+    getContent() {
+        let step = this.state.step;
+        if(step === stepsEnum.ANSWERS || step === stepsEnum.QUESTIONS) {
+            return (
+                <Questions topics={this.state.topics}
+                           descriptionRef={this.props.descriptionRef}
+                           setCorrected={this.setCorrected}/>
+            )
+        } else if(step === stepsEnum.RECOMMENDATION) {
+            return (
+                <Recommendation wrongQuestions={this.state.wrongQuestions} descriptionRef={this.props.descriptionRef}/>
+            )
+        }
     }
 
     render() {
         return (
             <Grid container justify='center' spacing={40} style={{width: "100%", marginLeft: 0 , marginRight:0}}>
-                <Stepper step={this.state.step}/>
-                <Questions topics={this.state.topics}
-                           descriptionRef={this.props.descriptionRef}
-                           setCorrected={this.setCorrected}/>
+                <Stepper step={this.state.step} clickStep={this.clickStep}/>
+                {this.getContent()}
             </Grid>
         );
     }

@@ -8,6 +8,7 @@ var colors = {
     wrongCard: "#ffcdd2",
     normalCard: "#ffffff",
     warningAlert: "#ffc400",
+    link: "#448AFF"
 };
 
 export default colors;

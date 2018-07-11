@@ -5,8 +5,7 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-// import colors from '../utilsMatUI'
-import theme from '../theme'
+import theme from '../theme';
 
 const styles = theme => ({
     root: {
@@ -17,23 +16,33 @@ const styles = theme => ({
 
 
 class StepperComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.clickStep = this.clickStep.bind(this);
+    }
 
     getStepsProps() {
         let stepNumber = this.props.step;
         switch (stepNumber) {
             case 0:
-                return [{}, {disabled: true}, {disabled: true}]
+                return [{}, {disabled: true}, {disabled: true}];
             case 1:
-                return [{disabled: true, completed: true}, {}, {}]
+                return [{disabled: true, completed: true}, {}, {}];
             case 2:
-                return [{disabled: true, completed: true}, {completed: true}, {}]
+                return [{disabled: true, completed: true}, {completed: true}, {}];
+            default:
+                return null;
         }
+    }
+
+    clickStep(step) {
+        this.props.clickStep(step);
     }
 
     render() {
         const { classes } = this.props;
 
-        let stepsProps = this.getStepsProps()
+        let stepsProps = this.getStepsProps();
 
         return(
             <Grid item xs={12} md={10}>
@@ -47,12 +56,12 @@ class StepperComponent extends React.Component {
                                     </StepButton>
                                 </Step>
                                 <Step {...stepsProps[1]}>
-                                    <StepButton>
+                                    <StepButton onClick={this.clickStep.bind(null, 1)}>
                                         Vejas seus acertos e erros
                                     </StepButton>
                                 </Step>
                                 <Step {...stepsProps[2]}>
-                                    <StepButton>
+                                    <StepButton onClick={this.clickStep.bind(null, 2)}>
                                         Estude com os materiais recomendados
                                     </StepButton>
                                 </Step>
@@ -61,7 +70,7 @@ class StepperComponent extends React.Component {
                     </div>
                 </MuiThemeProvider>
             </Grid>
-        )
+        );
     }
 
 }

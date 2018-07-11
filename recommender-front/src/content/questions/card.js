@@ -65,14 +65,12 @@ class QuestionCardList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {selectedAlternative: -1};
         this.changeSelectedAlternative = this.changeSelectedAlternative.bind(this)
     }
 
     changeSelectedAlternative(event) {
         let questionId = event.target['name'];
         let alternative = parseInt(event.target['value'], 10);
-        this.setState({selectedAlternative: alternative});
         this.props.changeSelectedAlternative(questionId, alternative);
     }
 
@@ -80,7 +78,7 @@ class QuestionCardList extends React.Component {
         const { classes } = this.props;
 
         let correctAlternative = this.props.correctAlternative;
-        let selectedAlternative = this.state.selectedAlternative;
+        let selectedAlternative = this.props.selectedAlternative;
         let unanswered = this.props.unanswered;
 
         if (unanswered === true) {
@@ -101,7 +99,6 @@ class QuestionCardList extends React.Component {
         let questionIndex = this.props.index;
         let title = "Pergunta " + (questionIndex + 1) + " (de " + this.props.total + ")";
         let {stem, alternatives, topic, _id} = this.props.question;
-        let self = this;
         let correctAlternative = this.props.correctAlternative;
 
         let disabled = correctAlternative? true: false;
@@ -134,7 +131,7 @@ class QuestionCardList extends React.Component {
                         <FormControl component="fieldset" required disabled={disabled}>
                             <RadioGroup
                                 name={_id}
-                                value={this.state.selectedAlternative.toString()}
+                                value={this.props.selectedAlternative.toString()}
                                 onChange={this.changeSelectedAlternative}
                             >
                                 {alternativesRadio}

@@ -7,22 +7,29 @@ import QuestionCard from './card'
 import SendButton from './button'
 import Alert from './alert'
 
+let state = {
+    questionsData: [],
+    total: 0,
+    questionsAnswers: {},
+    unansweredQuestions: [],
+    answered: false,
+    questionsCorrectAlternatives: null
+};
+
+let unmounted = false;
+
 class QuestionCardList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            questionsData: [],
-            total: 0,
-            questionsAnswers: {},
-            unansweredQuestions: [],
-            answered: false,
-            questionsCorrectAlternatives: null
-        };
+        this.state = state;
         this.changeSelectedAlternative = this.changeSelectedAlternative.bind(this);
         this.clickButton = this.clickButton.bind(this);
     }
 
     componentWillMount() {
+        if(unmounted===true) {
+            return;
+        }
         let self = this;
         axios.get('http://localhost:8000/questions/topics=/').then(function (response) {
             let questions = response.data;
@@ -57,7 +64,6 @@ class QuestionCardList extends React.Component {
             this.getQuestionsCorrectAlternatives();
         }
         this.setState({unansweredQuestions: unanswered});
-        console.log(this.props.descriptionRef.current.clientHeight);
         window.scroll({top: this.props.descriptionRef.current.clientHeight + 30, behavior: 'smooth'});
     }
 
@@ -74,7 +80,7 @@ class QuestionCardList extends React.Component {
                 this.setState({
                     questionsCorrectAlternatives: questionsCorrectAlternatives
                 });
-                this.props.setCorrected();
+                this.props.setCorrected(getWrongQuestions(this.state.questionsAnswers, questionsCorrectAlternatives));
             });
     }
 
@@ -86,7 +92,7 @@ class QuestionCardList extends React.Component {
                                   possa tirar suas dúvidas e avançar nos estudos."/>);
         } else {
             return (<Instructions text="Veja seus acertos e erros:"
-                                  subText={<span>Depois, clique na aba <b>MATERIAIS RECOMENDADOS</b> acima para
+                                  subText={<span>Depois, clique no <b>passo 3</b> acima para
                                       conferir uma lista de materiais recomendados para você que preparamos baseado em
                                       suas dificuldades!!</span>}/>);
         }
@@ -99,6 +105,7 @@ class QuestionCardList extends React.Component {
             let unanswered = this.state.unansweredQuestions.includes(item._id);
             let questionsCorrectAlternatives = this.state.questionsCorrectAlternatives;
             let correctAlternative = questionsCorrectAlternatives !== null && (questionsCorrectAlternatives[item._id] || false);
+            let selectedAlternative = this.state.questionsAnswers[item._id];
             return <QuestionCard key={index}
                                  index={index}
                                  total={this.state.total}
@@ -106,7 +113,8 @@ class QuestionCardList extends React.Component {
                                  topics={this.props.topics}
                                  changeSelectedAlternative={this.changeSelectedAlternative}
                                  unanswered={unanswered}
-                                 correctAlternative={correctAlternative}/>
+                                 correctAlternative={correctAlternative}
+                                 selectedAlternative={selectedAlternative}/>
         });
 
         return (
@@ -123,6 +131,11 @@ class QuestionCardList extends React.Component {
         );
     }
 
+    componentWillUnmount() {
+        state = this.state;
+        unmounted = true;
+    }
+
 }
 
 function checkUnanswered(questionsAnswers) {
@@ -133,6 +146,16 @@ function checkUnanswered(questionsAnswers) {
         }
     }
     return unanswered;
+}
+
+function getWrongQuestions(questionsAnswers, questionsCorrectAlternatives) {
+    let wrongQuestions = [];
+    for (let key in questionsAnswers) {
+        if (questionsAnswers[key] !== questionsCorrectAlternatives[key]) {
+            wrongQuestions.push(key);
+        }
+    }
+    return wrongQuestions;
 }
 
 export default QuestionCardList
