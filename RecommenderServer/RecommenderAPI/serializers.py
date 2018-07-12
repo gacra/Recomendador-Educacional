@@ -12,6 +12,10 @@ class QuestionSerializer(serializers.Serializer):
     alternatives = serializers.ListField(child=serializers.CharField())
     topic = serializers.ChoiceField(choices=TOPIC_CHOICES)
 
+
+class SaveQuestionSerializer(QuestionSerializer):
+    correct_alt = serializers.IntegerField()
+
     def create(self, validated_data):
         return db.insert_question(validated_data)
 
@@ -34,6 +38,7 @@ class MaterialSerializer(serializers.Serializer):
     type = serializers.CharField(read_only=True)
     topic = serializers.CharField(read_only=True)
     similarity = serializers.FloatField(read_only=True)
+
 
 class TopicsSerializer(serializers.Serializer):
     code = serializers.CharField(read_only=True)

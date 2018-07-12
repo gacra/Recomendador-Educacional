@@ -6,11 +6,13 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework.views import APIView
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, \
+    BasicAuthentication
 
 from RecommenderAPI import NUMBER_OF_QUESTIONS, PAGE_SIZE
 from RecommenderAPI import db
 from RecommenderAPI.serializers import (QuestionSerializer,
+                                        SaveQuestionSerializer,
                                         QuestionIDListSerizalizer,
                                         AnswerSerializer,
                                         MaterialSerializer,
@@ -18,7 +20,6 @@ from RecommenderAPI.serializers import (QuestionSerializer,
 
 
 class Questions(APIView):
-
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
@@ -33,7 +34,7 @@ class Questions(APIView):
         return paginator.get_paginated_response(question_serializer.data)
 
     def post(self, request, format=None):
-        serializer = QuestionSerializer(data=request.data)
+        serializer = SaveQuestionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
