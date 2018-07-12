@@ -61,7 +61,7 @@ class Item(dict):
         missing_fields = []
 
         for field in self.fields:
-            if not self.__getitem__(field):
+            if self.__getitem__(field) == None:
                 missing_fields.append(field)
 
         return missing_fields

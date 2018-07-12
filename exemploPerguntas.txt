@@ -1,6 +1,98 @@
+{"stem": "Qual é o nome da menor unidade de dado em um sistema computacional?",
+"alternatives": ["Byte", "Arquivo", "Bit", "ASCII"], 
+"correct_alt": 2, 
+"topic": "COMPUTADOR"}
+
+{"stem": "Em se tratando de componentes de um computador (hardware e software), os termos processador, linguagem C e transistor correspondem, respectivamente, a componentes de:",
+"alternatives": ["hardware, software e software", "hardware, hardware e software", "hardware, software e hardware", "software, software e hardware", "software, hardware e software"], 
+"correct_alt" 2: , 
+"topic": "SOFTWARE_HARDWARE"}
+
+{"stem": "Sendo a e b variáveis inteiras em um programa, a expressão lógica “NÃO ((a > b) OU (a = b))” é equivalente a:",
+"alternatives": ["(a <= b)", "(a >= b)", "(a < b)", "(a > b)", "NÃO (a = b)"], 
+"correct_alt": 2, 
+"topic": "BOOLEANA"}
+
+{"stem": "Uma das vantagens de se construir um algoritmo por meio do pseudocódigo é o fato de que a passagem do algoritmo para uma linguagem de programação qualquer se torna uma atividade quase que instantânea.",
+"alternatives": ["Certo", "Errado"], 
+"correct_alt": 0, 
+"topic": "ALGORITMO"}
+
+{"stem": "Os computadores entendem somente binários. Tudo que é digitado no teclado, internamente é transformado em binário, para que o computador possa processar as instruções e apresentar os resultados esperados. A linguagem binária é composta apenas por dois números: 0 e 1. Assinale a alternativa que apresenta, respectivamente, o correspondente, em decimal, dos seguintes binários: 10010100 e 11000000.",
+"alternatives": ["145 e 190", "147 e 188", "148 e 192", "149 e 193"], 
+"correct_alt": 2, 
+"topic": "NUMERACAO"}
+
+{"stem": "Julgue: Para que a máquina entenda os comandos de um programa desenvolvido na linguagem C, o programa deve ser compilado e traduzido para a linguagem da máquina.",
+"alternatives": ["Certo", "Errado"], 
+"correct_alt": 0, 
+"topic": "INTRODUCAO_C"}
+
+{"stem": "Assinale a opção correta:",
+"alternatives": ["Na aritmética computacional de ponto flutuante, é possível representar apenas números inteiros", "A representação em base decimal é natural para os seres humanos. Por isto, os computadores modernos usam internamente esta base para facilitar a interação homem máquina e estimular o raciocínio integrado", "Variáveis declaradas como ponto flutuante existem para armazenar números que possuem casas
+decimais, como 5,1497", "A representação por complemento de dois é adotada
+apenas para representar números binários positivos"], 
+"correct_alt": 2, 
+"topic": "TIPOS_DADOS"}
+
+{"stem": "Na linguagem C, o cabeçalho de biblioteca stdio.h possui definições de subrotinas relativas às operações de entrada/saída padrão. Uma das funções tratadas na biblioteca, associada a esse cabeçalho, é a função:",
+"alternatives": ["atoi", "trunc", "scanf", "strcpy", "locatime"], 
+"correct_alt": 2, 
+"topic": "ENTRADA_SAIDA"}
+
+{"stem": "Assinale a alternativa que representa, na linguagem de programação C, a estrutura de repetição for que, por meio da variável de controle i, percorre o intervalo do índice 0 até o índice 32 inclusive, na ordem não decrescente.",
+"alternatives": ["for(i = 32; i > 0; i--)", "for(i = 32; i > -1; i--)", "for(i = 0; i < 33; i++)", "for(i = 0; i < 32; i++)"], 
+"correct_alt": 2, 
+"topic": "COMANDOS_REPETICAO"}
+
+{"stem": "No contexto do comando switch e do uso do comando break em seu interior, na linguagem de programação C, é correto afirmar que:",
+"alternatives": ["toda cláusula case de um comando switch, incluindo a cláusula case default, deve conter um comando break", "os comandos na cláusula case default de um comando switch são executados apenas se nenhuma das cláusulas case anteriores possuir um comando break", "a expressão usada numa cláusula case de um comando switch pode ser de qualquer tipo e deve conter pelo menos uma variável", "quando um comando break é executado, o comando switch é encerrado e o fluxo de controle passa para o próximo comando após o fim do comando switch"], 
+"correct_alt": 3, 
+"topic": "COMANDOS_SELECAO"}
+
+{"stem": "Qual o resultado da operação 2/3 em C",
+"alternatives": ["1", "0", "0.66", "Não é uma operação válida"], 
+"correct_alt": 1, 
+"topic": "OPERADORES"}
+
+{"stem": "Recursão é uma boa solução para problemas com a seguinte propriedade: cada instância do problema contém uma instância menor do mesmo problema.",
+"alternatives": ["Verdadeiro", "Falso"], 
+"correct_alt": 0, 
+"topic": "RECURSAO"}
+
+{"stem": "Na linguagem de programação C, cadeias de caracteres (ou Strings) são representadas por vetores do tipo char.",
+"alternatives": ["Verdadeiro", "Falso"], 
+"correct_alt": 0, 
+"topic": "STRINGS"}
+
+{"stem": "Selecione qual das seguintes configurações de linhas e colunas de matriz possui maior número de elementos:",
+"alternatives": ["10 linhas e 1 coluna", "1 linha e 15 colunas", "4 linhas e 3 colunas", "2 linhas e 7 colunas", "4 linhas e 4 colunas"], 
+"correct_alt": 4, 
+"topic": "MATRIZES"}
+
+{"stem": "O comando fopen (“README”, “a”)",
+"alternatives": ["Abre o arquivo somente para leitura. O arquivo deve existir.", "Abre o arquivo para escrita e leitura, apagando o conteúdo pré-existente.", "Abre o arquivo para escrita no final do arquivo e leitura.", "Abre o arquivo somente para escrita no início do arquivo. Apagará o conteúdo do arquivo se ele já existir, criará um arquivo novo se não existir.", "Abre o arquivo para escrita no final do arquivo. Não apaga o conteúdo pré-existente."], 
+"correct_alt": 4, 
+"topic": "ARQUIVOS"}
+
+{"stem": "Considere a definição da seguinte struct escrita em linguagem de programação C: “struct endereco { char logradouro [50]; int numero; char cidade[30]; char estado[2]; } end1, end2;” A alternativa que manipula corretamente a struct acima definida é:",
+"alternatives": ["Para armazenar o valor 104 na variável numero: endereco.numero = 104;", "Para copiar o conteúdo das variáveis de end1 para end2: end1.strcpy = end2;", "Para criar um array de structs endereco: struct endereco end10[10];", "Para mostrar o conteúdo da variável logradouro: printf(“%s”,logradouro.end1);"], 
+"correct_alt": 2, 
+"topic": "STRUCTS"}
+
+{"stem": "Na linguagem C, é possível realizar alocações de memória utilizando alocação dinâmica ou estática. Assinale a alternativa que representa uma alocação dinâmica de um vetor do tipo primitivo double com 10 posições",
+"alternatives": ["malloc(10 * sizeof(double) + 1)", "malloc(10 * sizeof(double))", "double[10]", "double[10 * sizeof(double) + 1)"], 
+"correct_alt": 1, 
+"topic": "ALOCACAO"}
+
 {"stem": "Na linguagem C, as strings “%d”, “%f” e “%s” estão usualmente associadas ao uso da função:",
 "alternatives": ["getch", "printf", "main", "void", "feof"], 
 "correct_alt": 1, 
+"topic": "ENTRADA_SAIDA"}
+
+{"stem": "Assinale a alternativa que apresenta CORRETAMENTE a forma de se declarar uma função na linguagem C",
+"alternatives": ["void SOMA(float a, int b)", "void SOMA(float a, integer b)", "void SOMA(void a, int b)", "SOMA(integer a, int b)"], 
+"correct_alt": 0, 
 "topic": "FUNCOES"}
 
 {"stem": "Qual das instruções abaixo é correta para declarar um ponteiro para inteiro?",
@@ -10,33 +102,14 @@
 
 {"stem": "Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2]?",
 "alternatives": ["O segundo", "O terceiro", "O comando não está correto"], 
-"correct_alt": 2, 
-"topic": "PONTEIROS"}
+"correct_alt": 1, 
+"topic": "VETORES"}
 
 {"stem": "A função main() deve existir em alguma parte de um programa em C e marca o ponto de início da execução.",
 "alternatives": ["Verdadeiro", "Falso"], 
 "correct_alt": 0, 
-"topic": "PONTEIROS"}
+"topic": "FUNCOES"}
 
 
+https://www.qconcursos.com/questoes-de-concursos/questoes/search?assunto=2752&disciplina=160&modo=1&order=questao_aplicada_em+desc&page=3&per_page=5&product_id=1&url_solr=master&user_id=7450897
 
-
-
-
-
-
-
-
-{"enunciado": "Programe um aplicativo em C que acha todos os números primos até 1000. Número primo é aquele que é divisível somente por 1 e por ele mesmo.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "TIPOS_DADOS"}
-{"enunciado": "O exercício 4 mostra um exemplo de função que retorna um ponteiro. A função achaSobrenomeretorna o ponteiropnome. O que você acha que o programa imprime?", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "PONTEIROS"}
-{"enunciado": "Seja um vetor declarado por int vet[10]; Qual elemento deste vetor é acessado quando se escreve vet[2] ?", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "PONTEIROS"}
-{"enunciado": "Crie uma função que receba três valores, 'a', 'b' e 'c', que são os coeficientes de uma equação do segundo grau e retorne o valor do delta, que é dado por 'b² - 4ac'", "alternativas": ["while", "parâmetros definição", "Alternativa C"], "alt_correta": 2, "tema": "FUNCOES"}
-{"enunciado": "Faça um programa em C que recebe um inteiro do usuário e calcula seu fatorial. O fatorial de 'n' é dado por: n*(n-1)*(n-2)...*3*2*1 e é representado por n!", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "FUNCOES"}
-{"enunciado": "Crie um aplicativo em C que peça um número inteiro ao usuário - 'n' - e exiba o n-ésimo termo da série de Fibonacci, sabendo que o primeiro termo é 0, o segundo é 1 e o próximo número é sempre a soma dos dois anteriores.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "RECURSAO"}
-{"enunciado": "Indique os nomes de váriaveis que são válidos. Justifique os nomes inválidos.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "TIPOS_DADOS"}
-
-
-
-{"enunciado": "Crie uma função que receba três valores, 'a', 'b' e 'c', que são os coeficientes de uma equação do segundo grau e retorne o valor do delta, que é dado por 'b² - 4ac'", "alternativas": ["while", "parâmetros definição", "retorno"], "alt_correta": 2, "tema": "FUNCOES", "termos": {"crie": 1, "uma": 2, "função": 1, "que": 3, "receba": 1, "três": 1, "valores": 1, "são": 1, "os": 1, "coeficientes": 1, "de": 1, "equação": 1, "do": 2, "segundo": 1, "grau": 1, "e": 1, "retorne": 1, "o": 1, "valor": 1, "delta": 1, "é": 1, "dado": 1, "por": 1, "while": 1, "parâmetro": 1, "definição": 1, "retorno": 1}, "_id": "sl_pergunta.01"}
-
-{"enunciado": "Indique os nomes de váriaveis que são válidos. Justifique os nomes inválidos.", "alternativas": ["Alternativa a", "Alternativa b", "Alternativa C"], "alt_correta": 2, "tema": "TIPOS_DADOS", "termos": {"indique": 1, "os": 2, "nomes": 2, "de": 1, "variáveis": 1, "que": 1, "são": 1, "válidos": 1, "justifique": 1, "inválidos": 1}, "_id": "sl_pergunta.02"}
