@@ -26,7 +26,7 @@ const styles = {
     }
 };
 
-const minSimilarity = 25;
+const minSimilarity = 30;
 
 class Material extends React.Component {
 

@@ -28,7 +28,7 @@ class QuestionCardList extends React.Component {
     }
 
     componentWillMount() {
-        if(unmounted===true) {
+        if (unmounted === true) {
             return;
         }
         let self = this;
@@ -99,13 +99,23 @@ class QuestionCardList extends React.Component {
         }
     }
 
+    getCorrectAlternative(_id) {
+        let questionsCorrectAlternatives = this.state.questionsCorrectAlternatives;
+        if (questionsCorrectAlternatives !== null) {
+            let correctAlternative = questionsCorrectAlternatives[_id];
+            if (correctAlternative !== undefined) {
+                return correctAlternative;
+            }
+        }
+        return false;
+    }
+
     render() {
         let questions = this.state.questionsData;
 
         let cardList = questions.map((item, index) => {
             let unanswered = this.state.unansweredQuestions.includes(item._id);
-            let questionsCorrectAlternatives = this.state.questionsCorrectAlternatives;
-            let correctAlternative = questionsCorrectAlternatives !== null && (questionsCorrectAlternatives[item._id] || false);
+            let correctAlternative = this.getCorrectAlternative(item._id);
             let selectedAlternative = this.state.questionsAnswers[item._id];
             return <QuestionCard key={index}
                                  index={index}
@@ -119,17 +129,17 @@ class QuestionCardList extends React.Component {
         });
 
         return (
-            <Grid container justify='center' spacing={16} style={{width: "100%", marginLeft: 0 , marginRight:0}}>
-            {this.state.unansweredQuestions.length > 0 &&
+            <Grid container justify='center' spacing={16} style={{width: "100%", marginLeft: 0, marginRight: 0}}>
+                {this.state.unansweredQuestions.length > 0 &&
                 <Alert/>
                 }
                 {this.renderInstructions()}
                 {((questions.length === 0) || (this.state.answered === true && this.state.questionsCorrectAlternatives === null)) &&
-                    <Loading/>
+                <Loading/>
                 }
                 {cardList}
                 {questions.length > 0 && !this.state.answered &&
-                    <SendButton clickButton={this.clickButton}/>
+                <SendButton clickButton={this.clickButton}/>
                 }
             </Grid>
         );
