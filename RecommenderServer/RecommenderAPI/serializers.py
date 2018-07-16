@@ -43,3 +43,7 @@ class MaterialSerializer(serializers.Serializer):
 class TopicsSerializer(serializers.Serializer):
     code = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True)
+
+class SuperTopicsSerializer(serializers.Serializer):
+    name = serializers.CharField(read_only=True)
+    topic_list = TopicsSerializer(many=True, read_only=True)

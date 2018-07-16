@@ -6,6 +6,7 @@ import StepButton from '@material-ui/core/StepButton';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import theme from '../theme';
+import stepsEnum from './steps'
 
 const styles = theme => ({
     root: {
@@ -24,12 +25,14 @@ class StepperComponent extends React.Component {
     getStepsProps() {
         let stepNumber = this.props.step;
         switch (stepNumber) {
-            case 0:
-                return [{}, {disabled: true}, {disabled: true}];
-            case 1:
-                return [{disabled: true, completed: true}, {}, {}];
-            case 2:
-                return [{disabled: true, completed: true}, {completed: true}, {}];
+            case stepsEnum.TOPICS:
+                return [{}, {}, {disabled: true}, {disabled: true}];
+            case stepsEnum.QUESTIONS:
+                return [{disabled: true, completed: true}, {}, {disabled: true}, {disabled: true}];
+            case stepsEnum.ANSWERS:
+                return [{disabled: true, completed: true}, {disabled: true, completed: true}, {}, {}];
+            case stepsEnum.RECOMMENDATION:
+                return [{disabled: true, completed: true}, {disabled: true, completed: true}, {completed: true}, {}];
             default:
                 return null;
         }
@@ -52,16 +55,21 @@ class StepperComponent extends React.Component {
                             <Stepper alternativeLabel nonLinear activeStep={this.props.step}>
                                 <Step {...stepsProps[0]}>
                                     <StepButton>
-                                        Responda as perguntas
+                                        Escolha os temas
                                     </StepButton>
                                 </Step>
                                 <Step {...stepsProps[1]}>
                                     <StepButton onClick={this.clickStep.bind(null, 1)}>
-                                        Vejas seus acertos e erros
+                                        Responda as perguntas
                                     </StepButton>
                                 </Step>
                                 <Step {...stepsProps[2]}>
                                     <StepButton onClick={this.clickStep.bind(null, 2)}>
+                                        Vejas seus acertos e erros
+                                    </StepButton>
+                                </Step>
+                                <Step {...stepsProps[3]}>
+                                    <StepButton onClick={this.clickStep.bind(null, 3)}>
                                         Estude com os materiais recomendados
                                     </StepButton>
                                 </Step>

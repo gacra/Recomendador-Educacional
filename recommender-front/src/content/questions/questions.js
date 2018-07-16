@@ -32,7 +32,7 @@ class QuestionCardList extends React.Component {
             return;
         }
         let self = this;
-        axios.get('http://localhost:8000/questions/topics=/').then(function (response) {
+        axios.get('http://35.211.99.4:8000/questions/topics=/').then(function (response) {
             let questions = response.data;
             let questionsAnswers = {};
 
@@ -72,7 +72,7 @@ class QuestionCardList extends React.Component {
         let questionsIdList = this.state.questionsData.map((item) => {
             return item._id;
         });
-        axios.post('http://localhost:8000/answers/', {id_list: questionsIdList})
+        axios.post('http://35.211.99.4:8000/answers/', {id_list: questionsIdList})
             .then((response) => {
                 let questionsCorrectAlternatives = {};
                 response.data.forEach((item) => {

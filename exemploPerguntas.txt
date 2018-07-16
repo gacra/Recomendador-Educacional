@@ -5,7 +5,7 @@
 
 {"stem": "Em se tratando de componentes de um computador (hardware e software), os termos processador, linguagem C e transistor correspondem, respectivamente, a componentes de:",
 "alternatives": ["hardware, software e software", "hardware, hardware e software", "hardware, software e hardware", "software, software e hardware", "software, hardware e software"], 
-"correct_alt" 2: , 
+"correct_alt": 2, 
 "topic": "SOFTWARE_HARDWARE"}
 
 {"stem": "Sendo a e b variáveis inteiras em um programa, a expressão lógica “NÃO ((a > b) OU (a = b))” é equivalente a:",
@@ -29,9 +29,7 @@
 "topic": "INTRODUCAO_C"}
 
 {"stem": "Assinale a opção correta:",
-"alternatives": ["Na aritmética computacional de ponto flutuante, é possível representar apenas números inteiros", "A representação em base decimal é natural para os seres humanos. Por isto, os computadores modernos usam internamente esta base para facilitar a interação homem máquina e estimular o raciocínio integrado", "Variáveis declaradas como ponto flutuante existem para armazenar números que possuem casas
-decimais, como 5,1497", "A representação por complemento de dois é adotada
-apenas para representar números binários positivos"], 
+"alternatives": ["Na aritmética computacional de ponto flutuante, é possível representar apenas números inteiros", "A representação em base decimal é natural para os seres humanos. Por isto, os computadores modernos usam internamente esta base para facilitar a interação homem máquina e estimular o raciocínio integrado", "Variáveis declaradas como ponto flutuante existem para armazenar números que possuem casas decimais, como 5,1497", "A representação por complemento de dois é adotada apenas para representar números binários positivos"], 
 "correct_alt": 2, 
 "topic": "TIPOS_DADOS"}
 

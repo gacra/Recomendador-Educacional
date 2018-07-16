@@ -1,6 +1,6 @@
 import random
 
-from rec_edu_utils.models.topics import Topics
+from rec_edu_utils.models.topics import Topics, super_topics
 from rest_framework import status, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -16,7 +16,7 @@ from RecommenderAPI.serializers import (QuestionSerializer,
                                         QuestionIDListSerizalizer,
                                         AnswerSerializer,
                                         MaterialSerializer,
-                                        TopicsSerializer)
+                                        SuperTopicsSerializer)
 
 
 class Questions(APIView):
@@ -115,9 +115,15 @@ class Materials(APIView):
 class TopicsReference(APIView):
 
     def get(self, request, format=None):
-        topics_reference = [{"code": topic.name, "description": topic.value} for
-                            topic in Topics]
-        serializer = TopicsSerializer(topics_reference, many=True)
+        topics_reference_all = [{"code": topic.name, "description": topic.value}
+                                for
+                                topic in Topics]
+        topics_reference = [
+            {'name': super_topic_name,
+             'topic_list': topics_reference_all[index[0]:index[1]]}
+            for (super_topic_name, index) in super_topics.items()]
+
+        serializer = SuperTopicsSerializer(topics_reference, many=True)
         return Response(serializer.data)
 
 
