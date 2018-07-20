@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    env_file:
+      RecommenderServer/.env.docker
+    network_mode: "host"
+    volumes:
+      - /home/gacra/Recomendador-Educacional/recommender-back/code:/RecommenderServer/
+
+volumes:
+  postgres_data:
