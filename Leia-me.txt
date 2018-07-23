@@ -13,31 +13,11 @@ Scrapy Fedora
 sudo dnf install python3-devel
 pip install scrapy
 
---------------
-Tópicos ICC 1
---------------
+---------
+Servidor
+---------
 
-1 Como funciona um computador
-2 Um primeiro programa em C
-3 Fundamentos
-4 Comandos de repetição: while
-5 Comandos de seleção simples e composta
-6 Sobre a divisão e resto de números inteiros
-7 Mais detalhes da linguagem C
-8 Operadores lógicos
-9 Dicas de programação
-10 Comando de repetição: for
-11 Repetições encaixadas
-12 Indicador de passagem
-13 Números Reais - Tipo float
-14 Fórmula de recorrência e séries
-15 Funções - Introdução
-16 Definição e uso de funções em programas
-17 Funções e ponteiros
-18 Vetores
-19 Vetores, ponteiros e funções
-20 Caracteres: tipo char
-21 Strings
-22 Matrizes
-23 Matrizes, ponteiros e funções
-24 Algoritmos de busca
+Instalar npm (https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions):
+
+$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
